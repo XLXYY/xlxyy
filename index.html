@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星澜小月月-XingLan ovo!</title>
+    <style>
+        /* 设置整个页面的高度为100%并使用flex布局使内容居中 */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            position: relative; /* 确保body相对定位以便于绝对定位爪爪符号和底部文本 */
+            overflow: hidden; /* 防止滚动条出现 */
+        }
+
+        .content {
+            text-align: center;
+            padding: 2vw;
+            background: linear-gradient(90deg, blue, pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 3vw;
+            font-weight: bold;
+            margin-bottom: 5vh;
+        }
+
+        .search-box {
+            margin: 2vh 0;
+            position: relative;
+            width: 90%; /* 增加宽度至90% */
+            max-width: 800px; /* 设置最大宽度为800px */
+        }
+
+        .search-box input[type="text"] {
+            width: calc(100% - 100px); /* 自适应宽度，减去按钮宽度和内边距 */
+            padding: 1vh 1vw;
+            font-size: 1.5vw;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px; /* 只对输入框进行圆角处理 */
+            box-sizing: border-box;
+        }
+
+        .search-box button {
+            padding: 1vh 2vw;
+            font-size: 1.5vw;
+            border: 1px solid #ccc;
+            border-left: none; /* 移除左侧边框以无缝连接 */
+            background-color: #ff6699;
+            color: white;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0; /* 只对按钮进行圆角处理 */
+        }
+
+        .logos {
+            display: flex;
+            gap: 2vw;
+            flex-direction: row;
+            align-items: center;
+            width: 80%;
+            justify-content: space-around;
+        }
+
+        .logo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-item img {
+            width: 10vw;
+            cursor: pointer;
+        }
+
+        .logo-item span {
+            font-size: 1.5vw;
+            color: #333;
+            margin-top: 1vh;
+        }
+
+        .qq-popup {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            color: black;
+            padding: 1vh 2vw;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .claw {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff6699;
+            pointer-events: none; /* 确保爪爪符号不会干扰其他交互 */
+        }
+
+        /* 底部文本样式 */
+        .footer {
+            position: absolute;
+            bottom: 10px; /* 距离底部的距离 */
+            width: 100%;
+            text-align: center;
+            color: black;
+            font-size: 1.2vw; /* 根据需要调整字体大小 */
+        }
+
+        /* 弹窗样式 */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .close-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #ff6699;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 页面主要内容 -->
+    <div class="content">
+        <h1>网站建设中ヾ(●゜▽゜●)♡</h1>
+    </div>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="你想搜什么，星澜小月月帮你搜">
+        <button onclick="performSearch()">搜索</button>
+    </div>
+    <div class="logos">
+        <!-- 哔哩哔哩链接 -->
+        <div class="logo-item">
+            <a href="https://space.bilibili.com/1841279994" target="_blank">
+                <img src="./2.png" alt="哔哩哔哩">
+            </a>
+            <span>哔哩哔哩</span>
+        </div>
+        <!-- QQ图标和浮窗 -->
+        <div class="logo-item qq-icon">
+            <img src="./1.png" alt="QQ">
+            <span>QQ</span>
+            <div class="qq-popup">123456</div>
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
+    <div id="popup" class="popup" style="display:none;">
+        不要再点啦!网站还在建设中呢，没有看到嘛?(。・`ω´・)
+        <button class="close-btn" onclick="closePopup()">关闭</button>
+    </div>
+
+    <!-- 底部文本 -->
+    <div class="footer">
+        星澜小月月-XingLan的小屋 © 2025
+    </div>
+
+    <script>
+        let clickCount = 0;
+
+        document.body.addEventListener('click', function (event) {
+            const claw = document.createElement('div');
+            claw.className = 'claw';
+            claw.textContent = '🐾';
+            document.body.appendChild(claw);
+
+            // 设置爪爪符号的位置
+            claw.style.left = `${event.pageX}px`;
+            claw.style.top = `${event.pageY}px`;
+
+            // 动画效果（可选）
+            claw.style.opacity = '1';
+            claw.style.transform = 'scale(1)';
+            claw.style.transition = 'transform 0.3s, opacity 0.3s';
+
+            // 自动移除爪爪符号
+            setTimeout(() => {
+                claw.style.opacity = '0';
+                claw.style.transform = 'scale(0.5)';
+                setTimeout(() => {
+                    claw.remove();
+                }, 300); // 等待动画完成再移除元素
+            }, 1000); // 显示时间
+
+            // 记录点击次数
+            clickCount++;
+            if (clickCount >= 10) {
+                showPopup();
+            }
+        });
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            clickCount = 0; // 重置点击计数
+        }
+
+        function performSearch() {
+            var query = document.getElementById('searchInput').value;
+            if (query) {
+                window.location.href = "https://www.bing.com/search?q=" + encodeURIComponent(query);
+            }
+        }
+    </script>
+</body>
+
+</html>
