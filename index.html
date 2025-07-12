@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星澜小月月-XingLan的小窝</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffd166;
+            --dark: #1a1a2e;
+            --light: #f7f9fc;
+            --purple: #9d65c9;
+            --blue: #118ab2;
+            --pink: #ff6b9c;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(157, 101, 201, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.1) 0%, transparent 20%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:hover, 
+        .nav-links a.active {
+            background: rgba(78, 205, 196, 0.2);
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after, 
+        .nav-links a.active::after {
+            width: 70%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--light);
+        }
+        
+        /* 页面内容样式 */
+        .page {
+            min-height: 100vh;
+            display: none;
+            padding: 120px 0 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .page-title h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--pink));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        /* 首页样式 */
+        .home-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .intro-text {
+            max-width: 600px;
+        }
+        
+        .intro-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .intro-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: #e0e0ff;
+        }
+        
+        /* 摄影作品页面 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            height: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 20px;
+            color: white;
+        }
+        
+        /* 扩列页面 - 已更新QQ和邮箱 */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--pink);
+        }
+        
+        .contact-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--pink);
+        }
+        
+        .contact-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .contact-card p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #e0e0ff;
+        }
+        
+        .contact-email {
+            font-size: 16px;
+            word-break: break-all;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+        
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid var(--pink);
+            color: var(--pink);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        
+        .contact-btn:hover {
+            background: var(--pink);
+            color: var(--dark);
+            transform: scale(1.05);
+        }
+        
+        /* 抽奖页面 - 已优化 */
+        .lottery-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .prize-showcase {
+            margin-bottom: 40px;
+        }
+        
+        .prize-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .prize-item {
+            background: rgba(26, 26, 46, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .prize-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: var(--pink);
+        }
+        
+        .prize-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: var(--pink);
+        }
+        
+        .prize-item h4 {
+            color: var(--pink);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .prize-item p {
+            color: #c0c0ff;
+            font-weight: 300;
+        }
+        
+        .prize-rules {
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(26,26,46,0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .prize-rules h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .prize-rules ul {
+            padding-left: 20px;
+            line-height: 1.8;
+            color: #e0e0ff;
+        }
+        
+        .prize-rules li {
+            margin-bottom: 12px;
+        }
+        
+        .lottery-action {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .entry-btn {
+            display: inline-block;
+            padding: 16px 50px;
+            background: linear-gradient(90deg, var(--pink), var(--purple));
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(157, 101, 201, 0.4);
+            letter-spacing: 1px;
+        }
+        
+        .entry-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(157, 101, 201, 0.6);
+        }
+        
+        /* 星际之澜页面 */
+        .cosmic-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 80vh;
+        }
+        
+        .cosmic-title {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #a18cd1, #fbc2eb, #8fd3f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(188, 143, 243, 0.5);
+        }
+        
+        .cosmic-subtitle {
+            font-size: 1.8rem;
+            color: #c0c0ff;
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+        
+        .search-container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 20px 25px;
+            font-size: 18px;
+            color: white;
+            outline: none;
+        }
+        
+        .search-btn {
+            background: linear-gradient(90deg, var(--purple), #8fd3f4);
+            border: none;
+            color: white;
+            padding: 0 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(157, 101, 201, 0.5);
+        }
+        
+        .coming-soon {
+            margin-top: 80px;
+            font-size: 2.5rem;
+            color: var(--pink);
+            text-align: center;
+            animation: glow 2s infinite alternate;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background: rgba(10, 10, 20, 0.8);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            color: var(--pink);
+            margin-bottom: 20px;
+        }
+        
+        .copyright {
+            color: #a0a0c0;
+            font-size: 16px;
+        }
+        
+        /* 动画效果 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px var(--pink); }
+            to { text-shadow: 0 0 20px var(--pink), 0 0 30px var(--purple); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .page-title h1 {
+                font-size: 2.8rem;
+            }
+            
+            .cosmic-title {
+                font-size: 3.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: var(--dark);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 15px;
+                transform: translateY(-150%);
+                transition: var(--transition);
+                z-index: 999;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .page-title h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cosmic-title {
+                font-size: 2.8rem;
+            }
+            
+            .cosmic-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .home-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .cosmic-title {
+                font-size: 2rem;
+            }
+            
+            .cosmic-subtitle {
+                font-size: 1rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+            
+            .search-input {
+                padding: 15px;
+            }
+            
+            .search-btn {
+                padding: 15px;
+                border-radius: 0 0 15px 15px;
+            }
+            
+            .lottery-content {
+                padding: 25px 20px;
+            }
+            
+            .entry-btn {
+                padding: 14px 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-paw"></i></div>
+                    <div class="logo-text">星澜小月月-XingLan</div>
+                </div>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> 首页</a>
+                    <a href="#" class="nav-link" data-page="gallery"><i class="fas fa-camera"></i> 摄影作品</a>
+                    <a href="#" class="nav-link" data-page="contact"><i class="fas fa-user-friends"></i> 个人扩列</a>
+                    <a href="#" class="nav-link" data-page="lottery"><i class="fas fa-gift"></i> 粉丝抽奖</a>
+                    <a href="#" class="nav-link" data-page="cosmic"><i class="fas fa-star"></i> 搜索</a>
+                </div>
+                
+                <div class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 首页 -->
+    <section id="home" class="page active">
+        <div class="container">
+            <div class="page-title">
+                <h1>关于星澜小月月-XingLan</h1>
+                <p>Furry up主 | 内容创作者</p>
+            </div>
+            
+            <div class="home-content">
+                <div class="avatar-container">
+                    我的形象
+                </div>
+                
+                <div class="intro-text">
+                    <h2>你好，我是星澜小月月-XingLan！🌟</h2>
+                    <p>我是一名热爱创作和分享的Furry UP主，来自神秘星系边缘的兽人星球。我的创作灵感来源于宇宙的浩瀚与生命的奇妙，希望通过我的作品带大家探索奇幻的兽人世界。</p>
+                    <p>在我的频道里，你会看到：Fursuit展示、原创角色故事、宇宙冒险动画、以及各种有趣的Furry文化分享。我相信每个生命都有独特的光芒，就像夜空中闪烁的星星。</p>
+                    <p>除了创作内容，我也是一名业余摄影师，特别喜欢在自然中捕捉兽装与环境的完美融合。偶尔我也会制作一些手工周边，分享给我的粉丝们。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="page">
+        <div class="container">
+            <div class="page-title">
+                <h1>摄影作品集</h1>
+                <p>捕捉完美瞬间</p>
+            </div>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>森林之友</h3>
+                        <p>摄影师:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>月夜独行</h3>
+                        <p>摄影师:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>沙漠探险者</h3>
+                        <p>摄影师:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>海岸线</h3>
+                        <p>摄影师:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>霓虹都市</h3>
+                        <p>摄影师:</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="page">
+        <div class="container">
+            <div class="page-title">
+                <h1>个人扩列</h1>
+                <p>欢迎来交朋友！</p>
+            </div>
+            
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-qq"></i>
+                    </div>
+                    <h3>QQ扩列</h3>
+                    <p>加好友时请注明来意</p>
+                    <p>兽圈/Furry/同好</p>
+                    <p class="contact-email">QQ: 3769636783</p>
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=3769636783&site=qq&menu=yes" class="contact-btn" target="_blank">添加好友</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-bilibili"></i>
+                    </div>
+                    <h3>哔哩哔哩主页</h3>
+                    <p>关注我的B站账号</p>
+                    <p>获取最新作品</p>
+                    <a href="https://space.bilibili.com/1841279994" class="contact-btn" target="_blank">访问主页</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <h3>故事会投稿</h3>
+                    <p>直播内容</p>
+                    <p>故事分享</p>
+                    <a href="https://dreamail.cn/send?dm=fc820c14-386c-41c8-a3b9-af25ef231111" class="contact-btn" target="_blank">传送前往</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>邮件地址</h3>
+                    <p>内容合作/周边问题</p>
+                    <p>演出邀请……</p>
+                    <p class="contact-email">xlxyy123456@outlook.com</p>
+                    <p class="contact-email">xinglanchuansong@outlook.com</p>
+                    <a href="mailto:xlxyy123456@outlook.com" class="contact-btn">发送邮件</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="lottery" class="page">
+        <div class="container">
+            <div class="page-title">
+                <h1>粉丝福利抽奖</h1>
+                <p>感谢粉丝支持，每月都有好礼相送！</p>
+            </div>
+            
+            <div class="lottery-content">
+                <div class="prize-showcase">
+                    <h2><i class="fas fa-gift"></i> 本月奖品展示</h2>
+                    <div class="prize-items">
+                        <div class="prize-item">
+                            <div class="prize-icon"><i class="fas fa-tshirt"></i></div>
+                            <h4>限定</h4>
+                            <p>价值 ¥1999</p>
+                        </div>
+                        
+                        <div class="prize-item">
+                            <div class="prize-icon"><i class="fas fa-gift"></i></div>
+                            <h4>吧唧</h4>
+                            <p>价值 ¥899</p>
+                        </div>
+                        
+                        <div class="prize-item">
+                            <div class="prize-icon"><i class="fas fa-portrait"></i></div>
+                            <h4>定制</h4>
+                            <p>价值 ¥499</p>
+                        </div>
+                        
+                        <div class="prize-item">
+                            <div class="prize-icon"><i class="fas fa-shopping-bag"></i></div>
+                            <h4>神秘</h4>
+                            <p>价值 ¥299</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="prize-rules">
+                    <h3><i class="fas fa-info-circle"></i> 抽奖规则说明</h3>
+                    <ul>
+                        <li>每月日开启当月抽奖，日截止报名</li>
+                        <li>每位粉丝每月可参与一次抽奖活动</li>
+                        <li>需关注我的B站账号并转发抽奖动态</li>
+                        <li>中奖结果将于次月1日在B站动态公布</li>
+                        <li>奖品将在结果公布后15个工作日内寄出</li>
+                        <li>本活动最终解释权归星澜小月月-XingLan所有</li>
+                    </ul>
+                </div>
+                
+                <div class="lottery-action">
+                    <a href="https://example.com/lottery-entry" class="entry-btn" target="_blank">
+                        <i class="fas fa-ticket-alt"></i> 参加抽奖
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="cosmic" class="page">
+        <div class="container">
+            <div class="cosmic-page">
+                <h1 class="cosmic-title">『星际之澜·月光织梦』</h1>
+                <h2 class="cosmic-subtitle">Stellar Waves · Moonlit Dreams</h2>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="在星际中搜索...">
+                    <button class="search-btn">探索宇宙</button>
+                </div>
+                
+                <div class="coming-soon">
+                    <i class="fas fa-rocket"></i> 更多精彩内容正在开发中 <i class="fas fa-rocket"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <p class="copyright">© 2025 星澜小月月-XingLan 个人主页 | 版权所有 | 探索无限可能</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        //
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const hamburger = document.getElementById('hamburger');
+            const navLinksContainer = document.getElementById('navLinks');
+            
+            //
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 
+                    const targetPage = this.getAttribute('data-page');
+                    
+                    // 
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    //
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    document.getElementById(targetPage).classList.add('active');
+                    
+                    
+                    navLinksContainer.classList.remove('active');
+                    
+                   
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            hamburger.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+            
+            // 搜索功能
+            const searchBtn = document.querySelector('.search-btn');
+            const searchInput = document.querySelector('.search-input');
+            
+            searchBtn.addEventListener('click', function() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.open(`https://www.bing.com/search?q=${encodeURIComponent(query)}`, '_blank');
+                } else {
+                    searchInput.focus();
+                }
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
