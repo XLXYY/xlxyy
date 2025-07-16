@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>星澜小月月-XingLan的小窝</title>
+    <title>星澜小月月的小窝</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,9 +34,22 @@
             min-height: 100vh;
             overflow-x: hidden;
             background-attachment: fixed;
-            background-image: 
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
                 radial-gradient(circle at 10% 20%, rgba(157, 101, 201, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.1) 0%, transparent 20%);
+                radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 30% 60%, rgba(255, 107, 156, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 70% 40%, rgba(78, 205, 196, 0.1) 0%, transparent 25%);
+            z-index: -1;
         }
         
         .container {
@@ -258,7 +271,7 @@
             color: white;
         }
         
-        /* 扩列页面 - 已更新QQ和邮箱 */
+        /* 扩列页面 - 已更新 */
         .contact-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -438,7 +451,7 @@
             box-shadow: 0 15px 35px rgba(157, 101, 201, 0.6);
         }
         
-        /* 星际之澜页面 */
+        /* 页面 */
         .cosmic-page {
             display: flex;
             flex-direction: column;
@@ -658,6 +671,7 @@
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
     <header>
         <div class="container">
             <nav>
@@ -667,11 +681,11 @@
                 </div>
                 
                 <div class="nav-links" id="navLinks">
-                    <a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> 首页</a>
-                    <a href="#" class="nav-link" data-page="gallery"><i class="fas fa-camera"></i> 摄影作品</a>
-                    <a href="#" class="nav-link" data-page="contact"><i class="fas fa-user-friends"></i> 个人扩列</a>
-                    <a href="#" class="nav-link" data-page="lottery"><i class="fas fa-gift"></i> 粉丝抽奖</a>
-                    <a href="#" class="nav-link" data-page="cosmic"><i class="fas fa-star"></i> 搜索</a>
+                    <a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i>首页</a>
+                    <a href="#" class="nav-link" data-page="gallery"><i class="fas fa-camera"></i>摄影</a>
+                    <a href="#" class="nav-link" data-page="contact"><i class="fas fa-user-friends"></i>扩列</a>
+                    <a href="#" class="nav-link" data-page="lottery"><i class="fas fa-gift"></i>粉丝抽奖</a>
+                    <a href="#" class="nav-link" data-page="cosmic"><i class="fas fa-star"></i> 搜索一下</a>
                 </div>
                 
                 <div class="hamburger" id="hamburger">
@@ -686,78 +700,79 @@
         <div class="container">
             <div class="page-title">
                 <h1>关于星澜小月月-XingLan</h1>
-                <p>Furry up主 | 内容创作者</p>
+                <p>Furry | up主 | 内容创作者</p>
             </div>
             
             <div class="home-content">
                 <div class="avatar-container">
-                    我的形象
+                    星澜小月月-XingLan
                 </div>
                 
                 <div class="intro-text">
-                    <h2>你好，我是星澜小月月-XingLan！🌟</h2>
-                    <p>我是一名热爱创作和分享的Furry UP主，来自神秘星系边缘的兽人星球。我的创作灵感来源于宇宙的浩瀚与生命的奇妙，希望通过我的作品带大家探索奇幻的兽人世界。</p>
-                    <p>在我的频道里，你会看到：Fursuit展示、原创角色故事、宇宙冒险动画、以及各种有趣的Furry文化分享。我相信每个生命都有独特的光芒，就像夜空中闪烁的星星。</p>
-                    <p>除了创作内容，我也是一名业余摄影师，特别喜欢在自然中捕捉兽装与环境的完美融合。偶尔我也会制作一些手工周边，分享给我的粉丝们。</p>
+                    <h2>你好，我是星澜小月月-XingLan！🌟欢迎光临我的小窝！</h2>
+                    <p>我的设定是一只小海豚🐬，平时喜欢吃桃子，我的生日在每年的2月20日 </p>
+                    <p>坐标位于四川成都，喜欢打羽毛球，游戏的话当前正在攻克如何玩，人格类型是小画家，欢迎来找我玩哦！</p>
+                    <p>快要临近一万粉丝，我将会进行抽奖，敬请期待！</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- 摄影 -->
     <section id="gallery" class="page">
         <div class="container">
             <div class="page-title">
-                <h1>摄影作品集</h1>
-                <p>捕捉完美瞬间</p>
+                <h1>摄影</h1>
+                <p>furry</p>
             </div>
             
             <div class="gallery">
                 <div class="gallery-item">
                     <div class="overlay">
                         <h3>森林之友</h3>
-                        <p>摄影师:</p>
+                        <p>春日森林探险</p>
                     </div>
                 </div>
                 
                 <div class="gallery-item">
                     <div class="overlay">
                         <h3>月夜独行</h3>
-                        <p>摄影师:</p>
+                        <p>满月之夜的沉思</p>
                     </div>
                 </div>
                 
                 <div class="gallery-item">
                     <div class="overlay">
                         <h3>沙漠探险者</h3>
-                        <p>摄影师:</p>
+                        <p>炎炎夏日的冒险</p>
                     </div>
                 </div>
                 
                 <div class="gallery-item">
                     <div class="overlay">
                         <h3>海岸线</h3>
-                        <p>摄影师:</p>
+                        <p>日落时分的漫步</p>
                     </div>
                 </div>
                 
                 <div class="gallery-item">
                     <div class="overlay">
                         <h3>雪山之巅</h3>
-                        <p>摄影师:</p>
+                        <p>寒冷中的温暖</p>
                     </div>
                 </div>
                 
                 <div class="gallery-item">
                     <div class="overlay">
                         <h3>霓虹都市</h3>
-                        <p>摄影师:</p>
+                        <p>夜晚的城市漫步</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-
+    <!-- 个人扩列 - 已更新 -->
     <section id="contact" class="page">
         <div class="container">
             <div class="page-title">
@@ -772,7 +787,7 @@
                     </div>
                     <h3>QQ扩列</h3>
                     <p>加好友时请注明来意</p>
-                    <p>兽圈/Furry/同好</p>
+                    <p>兽圈/Furry</p>
                     <p class="contact-email">QQ: 3769636783</p>
                     <a href="http://wpa.qq.com/msgrd?v=3&uin=3769636783&site=qq&menu=yes" class="contact-btn" target="_blank">添加好友</a>
                 </div>
@@ -791,9 +806,9 @@
                     <div class="contact-icon">
                         <i class="fas fa-paper-plane"></i>
                     </div>
-                    <h3>故事会投稿</h3>
-                    <p>直播内容</p>
-                    <p>故事分享</p>
+                    <h3>悄悄话传送门</h3>
+                    <p>故事会投稿</p>
+                    <p>不开心事情分享</p>
                     <a href="https://dreamail.cn/send?dm=fc820c14-386c-41c8-a3b9-af25ef231111" class="contact-btn" target="_blank">传送前往</a>
                 </div>
                 
@@ -801,9 +816,9 @@
                     <div class="contact-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
-                    <h3>邮件地址</h3>
-                    <p>内容合作/周边问题</p>
-                    <p>演出邀请……</p>
+                    <h3>邮箱📬</h3>
+                    <p>我不知道</p>
+                    <p>这个可以干什么了( •̥́ ˍ •̀)</p>
                     <p class="contact-email">xlxyy123456@outlook.com</p>
                     <p class="contact-email">xinglanchuansong@outlook.com</p>
                     <a href="mailto:xlxyy123456@outlook.com" class="contact-btn">发送邮件</a>
@@ -812,66 +827,68 @@
         </div>
     </section>
 
-
+    <!-- 粉丝抽奖 - 已更新跳转链接 -->
     <section id="lottery" class="page">
         <div class="container">
             <div class="page-title">
-                <h1>粉丝福利抽奖</h1>
-                <p>感谢粉丝支持，每月都有好礼相送！</p>
+                <h1>一万粉丝福利抽奖</h1>
+                <p>感谢每位粉丝支持</p>
             </div>
             
             <div class="lottery-content">
                 <div class="prize-showcase">
-                    <h2><i class="fas fa-gift"></i> 本月奖品展示</h2>
+                    <h2><i class="fas fa-gift"></i>奖品展示</h2>
                     <div class="prize-items">
                         <div class="prize-item">
                             <div class="prize-icon"><i class="fas fa-tshirt"></i></div>
-                            <h4>限定</h4>
-                            <p>价值 ¥1999</p>
+                            <h4>还未准备</h4>
+                            <p>价值 ¥0</p>
                         </div>
                         
                         <div class="prize-item">
                             <div class="prize-icon"><i class="fas fa-gift"></i></div>
-                            <h4>吧唧</h4>
-                            <p>价值 ¥899</p>
+                            <h4>还未准备</h4>
+                            <p>价值 ¥0</p>
                         </div>
                         
                         <div class="prize-item">
                             <div class="prize-icon"><i class="fas fa-portrait"></i></div>
-                            <h4>定制</h4>
-                            <p>价值 ¥499</p>
+                            <h4>还未准备</h4>
+                            <p>价值 ¥0</p>
                         </div>
                         
                         <div class="prize-item">
                             <div class="prize-icon"><i class="fas fa-shopping-bag"></i></div>
-                            <h4>神秘</h4>
-                            <p>价值 ¥299</p>
+                            <h4>还未准备</h4>
+                            <p>价值 ¥0</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="prize-rules">
-                    <h3><i class="fas fa-info-circle"></i> 抽奖规则说明</h3>
+                    <h3><i class="fas fa-info-circle"></i>(必看)抽奖规则说明</h3>
                     <ul>
-                        <li>每月日开启当月抽奖，日截止报名</li>
-                        <li>每位粉丝每月可参与一次抽奖活动</li>
-                        <li>需关注我的B站账号并转发抽奖动态</li>
-                        <li>中奖结果将于次月1日在B站动态公布</li>
-                        <li>奖品将在结果公布后15个工作日内寄出</li>
-                        <li>本活动最终解释权归星澜小月月-XingLan所有</li>
+                        <li>本次"一万粉丝回馈抽奖"在年月日开始报名，于年月日结束报名</li>
+                        <li>所有参加抽奖的对象必须为我粉丝，且在报名提交时关注我的时长不小于20天，未满足的将被删除</li>
+                        <li>奖品不可折现</li>
+                        <li>抽奖完成后我将在我的b站动态通知，抽奖操作过程请再次访问该页面上我上载的视频</li>
+                        <li>一旦您中奖后请在收到邮件后24小时内阅读"赠送须知"并扫码填写(软件是"问卷星"无毒，请放心填写)表单，过时将视作您放弃奖品</li>
+                        <li>抽奖一人一号一次</li>
+                        <li>⚠一旦您填写并提交表单将视作您完全同意表单内容<li>
+                        <li>⚠本活动一切最终解释权归属星澜小月月-XingLan所有！<li>
                     </ul>
                 </div>
                 
                 <div class="lottery-action">
-                    <a href="https://www.wjx.top/vm/PpKpLGM.aspx#  class="entry-btn" target="_blank">
-                        <i class="fas fa-ticket-alt"></i> 参加抽奖
+                    <a href="https://www.wjx.top/vm/PpKpLGM.aspx" class="entry-btn" target="_blank">
+                        <i class="fas fa-ticket-alt"></i>立即报名
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-
+    <!-- 星际之澜 -->
     <section id="cosmic" class="page">
         <div class="container">
             <div class="cosmic-page">
@@ -884,7 +901,7 @@
                 </div>
                 
                 <div class="coming-soon">
-                    <i class="fas fa-rocket"></i> 更多精彩内容正在开发中 <i class="fas fa-rocket"></i>
+                    <i class="fas fa-rocket"></i> 更多精彩内容正在开发中敬请期待! <i class="fas fa-rocket"></i>
                 </div>
             </div>
         </div>
@@ -897,45 +914,46 @@
                 <div class="footer-logo">
                     <i class="fas fa-paw"></i>
                 </div>
-                <p class="copyright">© 2025 星澜小月月-XingLan 个人主页 | 版权所有 | 探索无限可能</p>
+                <p class="copyright">©2025 星澜小月月-XingLan 个人主页 | 探索无限可能</p>
             </div>
         </div>
     </footer>
 
     <script>
-        //
+        // 页面切换功能
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.nav-link');
             const pages = document.querySelectorAll('.page');
             const hamburger = document.getElementById('hamburger');
             const navLinksContainer = document.getElementById('navLinks');
             
-            //
+            // 页面切换
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    // 
+                    // 获取目标页面ID
                     const targetPage = this.getAttribute('data-page');
                     
-                    // 
+                    // 更新导航激活状态
                     navLinks.forEach(link => link.classList.remove('active'));
                     this.classList.add('active');
                     
-                    //
+                    // 隐藏所有页面，显示目标页面
                     pages.forEach(page => {
                         page.classList.remove('active');
                     });
                     document.getElementById(targetPage).classList.add('active');
                     
-                    
+                    // 移动端关闭菜单
                     navLinksContainer.classList.remove('active');
                     
-                   
+                    // 滚动到页面顶部
                     window.scrollTo(0, 0);
                 });
             });
             
+            // 移动端菜单切换
             hamburger.addEventListener('click', function() {
                 navLinksContainer.classList.toggle('active');
             });
@@ -947,12 +965,14 @@
             searchBtn.addEventListener('click', function() {
                 const query = searchInput.value.trim();
                 if (query) {
+                    // 使用搜索
                     window.open(`https://www.bing.com/search?q=${encodeURIComponent(query)}`, '_blank');
                 } else {
                     searchInput.focus();
                 }
             });
             
+            // 按Enter键也可触发搜索
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     searchBtn.click();
