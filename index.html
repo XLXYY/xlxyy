@@ -35,6 +35,7 @@
             overflow-x: hidden;
             background-attachment: fixed;
             position: relative;
+            cursor: default;
         }
         
         body::before {
@@ -229,6 +230,20 @@
             line-height: 1.8;
             margin-bottom: 25px;
             color: #e0e0ff;
+        }
+
+        /* 网易云播放器样式 */
+        .music-player {
+            margin-top: 30px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .music-player iframe {
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+            display: block;
         }
         
         /* 设定故事页面样式 */
@@ -582,6 +597,15 @@
             font-size: 16px;
         }
         
+        /* 点击特效样式 */
+        .paw-print {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fadePaw 1.5s forwards;
+        }
+        
         /* 动画效果 */
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -607,6 +631,17 @@
         @keyframes glow {
             from { text-shadow: 0 0 5px var(--pink); }
             to { text-shadow: 0 0 20px var(--pink), 0 0 30px var(--purple); }
+        }
+        
+        @keyframes fadePaw {
+            0% { 
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            100% { 
+                opacity: 0;
+                transform: translate(-50%, -100%) scale(1.5) rotate(10deg);
+            }
         }
         
         /* 响应式设计 */
@@ -749,6 +784,11 @@
                     <p>我的设定是一只小海豚🐬，平时喜欢吃桃子，我的生日在每年的2月20日 </p>
                     <p>坐标位于四川成都，喜欢打羽毛球，游戏的话当前正在攻克如何玩，人格类型是isfp小画家，欢迎来找我玩哦！</p>
                     <p>快要临近一万粉丝，我将会进行抽奖，敬请期待！</p>
+                    
+                    <!-- 网易云播放器 -->
+                    <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1347110044&auto=1&height=66"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1147,6 +1187,26 @@
                     searchBtn.click();
                 }
             });
+
+            // 点击特效：创建爪印
+            document.addEventListener('click', function(e) {
+                createPawPrint(e.clientX, e.clientY);
+            });
+            
+            function createPawPrint(x, y) {
+                const pawPrint = document.createElement('div');
+                pawPrint.className = 'paw-print';
+                pawPrint.innerHTML = '🐾';
+                pawPrint.style.left = `${x}px`;
+                pawPrint.style.top = `${y}px`;
+                
+                document.body.appendChild(pawPrint);
+                
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    pawPrint.remove();
+                }, 1500);
+            }
         });
     </script>
 </body>
