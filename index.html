@@ -1321,7 +1321,7 @@
             // 网站运行时间计算（包含秒数）
 function updateRunningTime() {
     // 设置网站上线日期（请修改为实际的上线日期）
-    const startDate = new Date('2025-07-25T00:00:00');
+    const startDate = new Date('2025-07-12T00:08:00');
     const now = new Date();
     
     // 计算时间差
@@ -1347,7 +1347,7 @@ setInterval(updateRunningTime, 1000);
                 
                 if (!visitors) {
                     // 初始访客数（可以设置一个起始值）
-                    visitors = 5;
+                    visitors = 0;
                 } else {
                     // 每次访问增加1
                     visitors = parseInt(visitors) + 1;
