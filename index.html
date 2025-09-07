@@ -572,12 +572,55 @@
             animation: glow 2s infinite alternate;
         }
         
+        /* 网站统计信息样式 */
+        .site-stats {
+            background: rgba(15, 15, 25, 0.7);
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-icon {
+            font-size: 24px;
+            color: var(--pink);
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #a0a0c0;
+        }
+        
         /* 页脚样式 */
         footer {
             background: rgba(10, 10, 20, 0.8);
             padding: 30px 0;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 0;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
@@ -600,7 +643,7 @@
         /* 点击特效样式 */
         .paw-print {
             position: fixed;
-            font-size: 24px;
+            font-size: 32px; /* 增加35%大小 (从24px增加到32px) */
             pointer-events: none;
             z-index: 9999;
             animation: fadePaw 1.5s forwards;
@@ -700,6 +743,14 @@
             .story-content {
                 padding: 25px 20px;
             }
+            
+            .stats-container {
+                gap: 30px;
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
         }
         
         @media (max-width: 576px) {
@@ -736,6 +787,22 @@
             .entry-btn {
                 padding: 14px 40px;
                 font-size: 1.2rem;
+            }
+            
+            .stats-container {
+                gap: 20px;
+            }
+            
+            .stat-item {
+                flex: 0 0 40%;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+            
+            .stat-label {
+                font-size: 14px;
             }
         }
     </style>
@@ -785,9 +852,9 @@
                     <p>坐标位于四川成都，喜欢打羽毛球，游戏的话当前正在攻克如何玩，人格类型是isfp小画家，欢迎来找我玩哦！</p>
                     <p>快要临近一万粉丝，我将会进行抽奖，敬请期待！</p>
                     
-                    <!-- 网易云播放器 -->
+                    <!-- 网易云播放器 - 已更新 -->
                     <div class="music-player">
-                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1347110044&auto=1&height=66"></iframe>
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110 src="//music.163.com/outchain/player?type=0&id=14255236736&auto=1&height=90"></iframe>
                     </div>
                 </div>
             </div>
@@ -809,7 +876,7 @@
                 
                 <p>他正蜷在懒人沙发里，毛茸茸的大尾巴有一下没一下地拍着地面，终端屏幕上闪烁着他刚剪辑完的视频草稿。"啊——总算搞定了……"他打了个哈欠，露出小巧的尖牙，耳朵也因为放松而软软地塌了下来。作为一名 furry up 主，分享日常生活和有趣的"小发现"就是他最大的乐趣。</p>
                 
-                <p>就在这时，他胸前一枚总是散发着微光的、像破碎水晶般的吊坠突然不规则地闪烁起来。</p>
+                <p>就在这时，他胸前一枚总是散发着微光的、像破碎水晶般的吊坠突然不规则地闪烁起来.</p>
                 
                 <p>"嗯？"小月月坐起身，爪子握住了吊坠。这不是普通的饰品，是他与生俱来的空间能力凝聚物，也是他感知周围空间状态的"雷达"。通常它只会像呼吸般平稳地明灭，但现在，它却在急促地"报警"。</p>
                 
@@ -825,7 +892,7 @@
                 
                 <p>突然，异变陡生！</p>
                 
-                <p>那混沌能量团猛地膨胀，爆发出强烈的吸力！地面的碎石、断砖纷纷被卷入其中，消失不见。小月月一个踉跄，赶紧稳住下盘，脚下浮现出淡淡的、如同星座图般的法阵，抵抗着吸力。</p>
+                <p>那混沌能量团猛地膨胀，爆发出强烈的吸力！地面的碎石、断砖纷纷被卷入其中，消失不见。小月月一个踉跄，赶紧稳住下盘，脚下浮现出淡淡的、如同星座图般的法阵，抵抗着吸力.</p>
                 
                 <p>"哇哦！这个劲儿可真大！"他惊呼一声，耳朵警觉地竖得笔直。</p>
                 
@@ -1036,12 +1103,12 @@
         </div>
     </section>
 
-    <!-- 粉丝抽奖 - 已更新跳转链接 -->
+    <!-- 粉丝抽奖 - 已更新奖品展示 -->
     <section id="lottery" class="page">
         <div class="container">
             <div class="page-title">
                 <h1>一万粉丝福利抽奖</h1>
-                <p>感谢每位粉丝支持</p>
+                <p>感谢每位粉丝支持,图标与图片不符不用管</p>
             </div>
             
             <div class="lottery-content">
@@ -1049,25 +1116,39 @@
                     <h2><i class="fas fa-gift"></i>奖品展示</h2>
                     <div class="prize-items">
                         <div class="prize-item">
-                            <div class="prize-icon"><i class="fas fa-tshirt"></i></div>
+                            
                             <h4>还未准备</h4>
                             <p>价值 ¥0</p>
                         </div>
                         
                         <div class="prize-item">
-                            <div class="prize-icon"><i class="fas fa-gift"></i></div>
+                            
                             <h4>还未准备</h4>
                             <p>价值 ¥0</p>
                         </div>
                         
                         <div class="prize-item">
-                            <div class="prize-icon"><i class="fas fa-portrait"></i></div>
+                            
                             <h4>还未准备</h4>
                             <p>价值 ¥0</p>
                         </div>
                         
                         <div class="prize-item">
-                            <div class="prize-icon"><i class="fas fa-shopping-bag"></i></div>
+                            
+                            <h4>还未准备</h4>
+                            <p>价值 ¥0</p>
+                        </div>
+                        
+                        <!-- 新增奖品1 -->
+                        <div class="prize-item">
+                            
+                            <h4>还未准备</h4>
+                            <p>价值 ¥0</p>
+                        </div>
+                        
+                        <!-- 新增奖品2 -->
+                        <div class="prize-item">
+                            
                             <h4>还未准备</h4>
                             <p>价值 ¥0</p>
                         </div>
@@ -1089,7 +1170,7 @@
                 </div>
                 
                 <div class="lottery-action">
-                    <a href="https://www.wjx.top/vm/PpKpLGM.aspx" class="entry-btn" target="_blank">
+                    <a href="closed.html" class="entry-btn">
                         <i class="fas fa-ticket-alt"></i>立即报名
                     </a>
                 </div>
@@ -1115,6 +1196,29 @@
             </div>
         </div>
     </section>
+
+    <!-- 网站统计信息 -->
+    <div class="site-stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="site-running-time">0天0小时</div>
+                    <div class="stat-label">网站已运行</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value" id="site-visitors">12345</div>
+                    <div class="stat-label">历史访客</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 页脚 -->
     <footer>
@@ -1207,6 +1311,51 @@
                     pawPrint.remove();
                 }, 1500);
             }
+            
+            // 网站运行时间计算（包含秒数）
+function updateRunningTime() {
+    // 设置网站上线日期（请修改为实际的上线日期）
+    const startDate = new Date('2025-07-25T00:00:00');
+    const now = new Date();
+    
+    // 计算时间差
+    const diffTime = Math.abs(now - startDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+    const diffSeconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+    
+    // 更新显示
+    document.getElementById('site-running-time').textContent = 
+        `${diffDays}天${diffHours}小时${diffMinutes}分${diffSeconds}秒`;
+}
+
+// 初始化运行时间
+updateRunningTime();
+// 每秒更新一次
+setInterval(updateRunningTime, 1000);
+            
+            // 访客计数（使用localStorage模拟）
+            function updateVisitorCount() {
+                let visitors = localStorage.getItem('siteVisitors');
+                
+                if (!visitors) {
+                    // 初始访客数（可以设置一个起始值）
+                    visitors = 5;
+                } else {
+                    // 每次访问增加1
+                    visitors = parseInt(visitors) + 1;
+                }
+                
+                // 保存到本地存储
+                localStorage.setItem('siteVisitors', visitors);
+                
+                // 更新显示
+                document.getElementById('site-visitors').textContent = visitors.toLocaleString();
+            }
+            
+            // 初始化访客计数
+            updateVisitorCount();
         });
     </script>
 </body>

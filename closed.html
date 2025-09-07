@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽奖暂未开始 - 星澜小月月的小窝</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffd166;
+            --dark: #1a1a2e;
+            --light: #f7f9fc;
+            --purple: #9d65c9;
+            --blue: #118ab2;
+            --pink: #ff6b9c;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(157, 101, 201, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 30% 60%, rgba(255, 107, 156, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 70% 40%, rgba(78, 205, 196, 0.1) 0%, transparent 25%);
+            z-index: -1;
+        }
+        
+        .message-container {
+            text-align: center;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .message-icon {
+            font-size: 80px;
+            color: var(--accent);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+        
+        .message-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--accent), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .message-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: #e0e0ff;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 16px 50px;
+            background: linear-gradient(90deg, var(--pink), var(--purple));
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(157, 101, 201, 0.4);
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(157, 101, 201, 0.6);
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .message-container {
+                padding: 30px 20px;
+            }
+            
+            .message-icon {
+                font-size: 60px;
+            }
+            
+            .message-title {
+                font-size: 2rem;
+            }
+            
+            .message-text {
+                font-size: 1rem;
+            }
+            
+            .back-btn {
+                padding: 14px 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="message-container">
+        <div class="message-icon">
+            <i class="fas fa-hourglass-half"></i>
+        </div>
+        <h1 class="message-title">抱歉，抽奖暂未开始</h1>
+        <p class="message-text">感谢您的关注！抽奖活动正在筹备中，请耐心等待。<br>关注我的B站账号获取最新动态，开启后我们会第一时间通知您！</p>
+        <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> 返回上一页</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
