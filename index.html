@@ -474,6 +474,10 @@
         .lottery-action {
             text-align: center;
             margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
         
         .entry-btn {
@@ -495,6 +499,28 @@
         .entry-btn:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 15px 35px rgba(157, 101, 201, 0.6);
+        }
+        
+        /* QQ邮箱教程按钮样式 */
+        .tutorial-btn {
+            display: inline-block;
+            padding: 16px 50px;
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(17, 138, 178, 0.4);
+            letter-spacing: 1px;
+        }
+        
+        .tutorial-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(17, 138, 178, 0.6);
         }
         
         /* 页面 */
@@ -1114,7 +1140,7 @@
         <div class="container">
             <div class="page-title">
                 <h1>一万粉丝福利抽奖</h1>
-                <p>感谢每位粉丝支持,爱你❤</p>
+                <p>感谢每位粉丝支持,图标与图片不符不用管</p>
             </div>
             
             <div class="lottery-content">
@@ -1178,6 +1204,10 @@
                 <div class="lottery-action">
                     <a href="closed.html" class="entry-btn">
                         <i class="fas fa-ticket-alt"></i>立即报名
+                    </a>
+                    <!-- 新增的QQ邮箱教程按钮 -->
+                    <a href="https://pan.huang1111.cn/s/5XWQPul" class="tutorial-btn" target="_blank">
+                        <i class="fas fa-envelope"></i>QQ邮箱教程
                     </a>
                 </div>
             </div>
