@@ -26,16 +26,39 @@
             --blue: #118ab2;
             --pink: #ff6b9c;
             --transition: all 0.3s ease;
+            
+            /* 主题相关变量 - 默认暗色主题 */
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #f7f9fc;
+            --text-secondary: #e0e0ff;
+            --header-bg: rgba(26, 26, 46, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 亮色主题变量 */
+        [data-theme="light"] {
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --header-bg: rgba(240, 242, 245, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: var(--light);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
             background-attachment: fixed;
             position: relative;
             cursor: default;
+            transition: var(--transition);
         }
         
         body::before {
@@ -53,6 +76,14 @@
             z-index: -1;
         }
         
+        [data-theme="light"] body::before {
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(157, 101, 201, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 30% 60%, rgba(255, 107, 156, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 70% 40%, rgba(78, 205, 196, 0.05) 0%, transparent 25%);
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -61,15 +92,16 @@
         
         /* 导航栏样式 */
         header {
-            background: rgba(26, 26, 46, 0.8);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 20px var(--shadow-color);
+            border-bottom: 1px solid var(--card-border);
+            transition: var(--transition);
         }
         
         nav {
@@ -106,7 +138,7 @@
         }
         
         .nav-links a {
-            color: var(--light);
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
             font-size: 16px;
@@ -144,7 +176,7 @@
             display: none;
             cursor: pointer;
             font-size: 24px;
-            color: var(--light);
+            color: var(--text-primary);
         }
         
         /* 页面内容样式 */
@@ -187,6 +219,10 @@
             border-radius: 2px;
         }
         
+        .page-title p {
+            color: var(--text-secondary);
+        }
+        
         /* 首页样式 */
         .home-content {
             display: flex;
@@ -203,7 +239,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 5px solid var(--accent);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px var(--shadow-color);
             animation: float 6s ease-in-out infinite;
             background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
             display: flex;
@@ -229,7 +265,7 @@
             font-size: 1.1rem;
             line-height: 1.8;
             margin-bottom: 25px;
-            color: #e0e0ff;
+            color: var(--text-secondary);
         }
 
         /* 网易云播放器样式 */
@@ -241,7 +277,7 @@
         
         .music-player iframe {
             border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px var(--shadow-color);
             margin: 0 auto;
             display: block;
         }
@@ -250,12 +286,12 @@
         .story-content {
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
             backdrop-filter: blur(10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 35px var(--shadow-color);
         }
         
         .story-content h3 {
@@ -268,7 +304,7 @@
         .story-content p {
             line-height: 1.8;
             margin-bottom: 20px;
-            color: #e0e0ff;
+            color: var(--text-secondary);
             text-align: justify;
         }
         
@@ -290,7 +326,7 @@
             overflow: hidden;
             position: relative;
             height: 250px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px var(--shadow-color);
             transition: var(--transition);
             background: linear-gradient(45deg, #a18cd1, #fbc2eb);
             display: flex;
@@ -304,7 +340,7 @@
         
         .gallery-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 30px var(--shadow-color);
         }
         
         .gallery-item .overlay {
@@ -326,19 +362,19 @@
         }
         
         .contact-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--card-bg);
             border-radius: 15px;
             padding: 30px;
             text-align: center;
             transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
             backdrop-filter: blur(10px);
         }
         
         .contact-card:hover {
             transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px var(--shadow-color);
             border-color: var(--pink);
         }
         
@@ -357,7 +393,7 @@
         .contact-card p {
             font-size: 18px;
             margin-bottom: 10px;
-            color: #e0e0ff;
+            color: var(--text-secondary);
         }
         
         .contact-email {
@@ -390,21 +426,21 @@
         .lottery-content {
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
             backdrop-filter: blur(10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 35px var(--shadow-color);
         }
         
         .prize-showcase h2 {
-    margin-bottom: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
         
         .prize-items {
             display: grid;
@@ -419,7 +455,7 @@
             padding: 20px;
             text-align: center;
             transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
             height: 220px;
             display: flex;
             flex-direction: column;
@@ -429,7 +465,7 @@
         
         .prize-item:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px var(--shadow-color);
             border-color: var(--pink);
         }
         
@@ -446,7 +482,7 @@
         }
         
         .prize-item p {
-            color: #c0c0ff;
+            color: var(--text-secondary);
             font-weight: 300;
         }
         
@@ -455,7 +491,7 @@
             padding: 25px;
             background: rgba(26,26,46,0.5);
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
         }
         
         .prize-rules h3 {
@@ -468,7 +504,7 @@
         .prize-rules ul {
             padding-left: 20px;
             line-height: 1.8;
-            color: #e0e0ff;
+            color: var(--text-secondary);
         }
         
         .prize-rules li {
@@ -549,7 +585,7 @@
         
         .cosmic-subtitle {
             font-size: 1.8rem;
-            color: #c0c0ff;
+            color: var(--text-secondary);
             margin-bottom: 50px;
             font-weight: 300;
             letter-spacing: 3px;
@@ -563,8 +599,8 @@
             padding: 5px;
             display: flex;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
         
         .search-input {
@@ -573,7 +609,7 @@
             border: none;
             padding: 20px 25px;
             font-size: 18px;
-            color: white;
+            color: var(--text-primary);
             outline: none;
         }
         
@@ -604,12 +640,12 @@
         
         /* 网站统计信息样式 */
         .site-stats {
-    padding: 20px 0;
-    text-align: center;
-    margin-bottom: 30px;
-    background: transparent; /* 移除深色背景 */
-    border: none; /* 移除边框 */
-}
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            background: transparent;
+            border: none;
+        }
         
         .stats-container {
             display: flex;
@@ -641,7 +677,7 @@
         
         .stat-label {
             font-size: 16px;
-            color: #e0e0ff;
+            color: var(--text-secondary);
         }
         
         /* 页脚样式 */
@@ -650,7 +686,7 @@
             padding: 30px 0;
             text-align: center;
             margin-top: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--card-border);
         }
         
         .footer-content {
@@ -665,17 +701,75 @@
         }
         
         .copyright {
-            color: #a0a0c0;
+            color: var(--text-secondary);
             font-size: 16px;
         }
         
         /* 点击特效样式 */
         .paw-print {
             position: fixed;
-            font-size: 32px; /* 增加35%大小 (从24px增加到32px) */
+            font-size: 32px;
             pointer-events: none;
             z-index: 9999;
             animation: fadePaw 1.5s forwards;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: var(--transition);
+            border: none;
+            font-size: 24px;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(30deg);
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--pink);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            border: none;
+            font-size: 24px;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--purple);
         }
         
         /* 动画效果 */
@@ -733,7 +827,7 @@
                 top: 80px;
                 left: 0;
                 right: 0;
-                background: var(--dark);
+                background: var(--bg-secondary); /* 修改为使用主题变量 */
                 flex-direction: column;
                 align-items: center;
                 padding: 20px 0;
@@ -741,7 +835,7 @@
                 transform: translateY(-150%);
                 transition: var(--transition);
                 z-index: 999;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 10px 20px var(--shadow-color);
             }
             
             .nav-links.active {
@@ -779,6 +873,22 @@
             
             .stat-value {
                 font-size: 24px;
+            }
+            
+            .theme-toggle,
+            .back-to-top {
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .theme-toggle {
+                left: 20px;
+            }
+            
+            .back-to-top {
+                right: 20px;
             }
         }
         
@@ -832,6 +942,22 @@
             
             .stat-label {
                 font-size: 14px;
+            }
+            
+            .theme-toggle,
+            .back-to-top {
+                bottom: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .theme-toggle {
+                left: 15px;
+            }
+            
+            .back-to-top {
+                right: 15px;
             }
         }
     </style>
@@ -1272,6 +1398,16 @@
         </div>
     </footer>
 
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
         // 页面切换功能
         document.addEventListener('DOMContentLoaded', function() {
@@ -1353,27 +1489,27 @@
             }
             
             // 网站运行时间计算（包含秒数）
-function updateRunningTime() {
-    // 设置网站上线日期（请修改为实际的上线日期）
-    const startDate = new Date('2025-07-12T00:08:00');
-    const now = new Date();
-    
-    // 计算时间差
-    const diffTime = Math.abs(now - startDate);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
-    const diffSeconds = Math.floor((diffTime % (1000 * 60)) / 1000);
-    
-    // 更新显示
-    document.getElementById('site-running-time').textContent = 
-        `${diffDays}天${diffHours}小时${diffMinutes}分${diffSeconds}秒`;
-}
+            function updateRunningTime() {
+                // 设置网站上线日期（请修改为实际的上线日期）
+                const startDate = new Date('2025-07-12T00:08:00');
+                const now = new Date();
+                
+                // 计算时间差
+                const diffTime = Math.abs(now - startDate);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+                const diffSeconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+                
+                // 更新显示
+                document.getElementById('site-running-time').textContent = 
+                    `${diffDays}天${diffHours}小时${diffMinutes}分${diffSeconds}秒`;
+            }
 
-// 初始化运行时间
-updateRunningTime();
-// 每秒更新一次
-setInterval(updateRunningTime, 1000);
+            // 初始化运行时间
+            updateRunningTime();
+            // 每秒更新一次
+            setInterval(updateRunningTime, 1000);
             
             // 访客计数（使用localStorage模拟）
             function updateVisitorCount() {
@@ -1396,6 +1532,57 @@ setInterval(updateRunningTime, 1000);
             
             // 初始化访客计数
             updateVisitorCount();
+            
+            // 主题切换功能
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // 检查本地存储中的主题偏好
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.setAttribute('data-theme', savedTheme);
+                updateThemeIcon(savedTheme);
+            }
+            
+            // 切换主题
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+            
+            function updateThemeIcon(theme) {
+                if (theme === 'light') {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            }
+            
+            // 返回顶部功能
+            const backToTop = document.getElementById('backToTop');
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+            
+            // 点击返回顶部
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
