@@ -14,6 +14,10 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         
         :root {
@@ -783,6 +787,84 @@
             background: var(--purple);
         }
         
+        /* 水印样式 */
+        .watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .watermark.active {
+            opacity: 1;
+        }
+        
+        .watermark-text {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 107, 156, 0.8);
+            margin-bottom: 2rem;
+        }
+        
+        .watermark-subtext {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+        
+        .watermark-close {
+            position: absolute;
+            bottom: 30px;
+            padding: 12px 30px;
+            background: var(--pink);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        /* 开发者工具警告 */
+        .devtools-warning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .devtools-warning h1 {
+            font-size: 2.5rem;
+            color: var(--pink);
+            margin-bottom: 20px;
+        }
+        
+        .devtools-warning p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            max-width: 600px;
+        }
+        
         /* 动画效果 */
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -974,6 +1056,20 @@
     </style>
 </head>
 <body>
+    <!-- 水印层 -->
+    <div class="watermark" id="watermark">
+        <div class="watermark-text">星澜小月月-XingLan</div>
+        <div class="watermark-subtext">禁止复制或截屏</div>
+        <button class="watermark-close" id="closeWatermark">关闭水印</button>
+    </div>
+
+    <!-- 开发者工具警告 -->
+    <div class="devtools-warning" id="devtoolsWarning" style="display: none;">
+        <h1>⚠️ 安全警告</h1>
+        <p>检测到开发者工具已打开，请关闭开发者工具以继续浏览</p>
+        <p>此操作已被记录</p>
+    </div>
+
     <!-- 导航栏 -->
     <header>
         <div class="container">
@@ -1020,7 +1116,7 @@
                     
                     <!-- 网易云播放器 - 已更新 -->
                     <div class="music-player">
-                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=420 src="//music.163.com/outchain/player?type=0&id=14255236736&auto=1&height=430"></iframe>
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110 src="//music.163.com/outchain/player?type=0&id=14255236736&auto=1&height=90"></iframe>
                     </div>
                 </div>
             </div>
@@ -1595,6 +1691,153 @@
                     behavior: 'smooth'
                 });
             });
+            
+            // 版权保护功能
+            
+            // 1. 禁用文本选择和右键菜单
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 2. 禁用拖拽
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 3. 禁用开发者工具
+            function detectDevTools() {
+                const devtoolsWarning = document.getElementById('devtoolsWarning');
+                
+                function checkDevTools() {
+                    const widthThreshold = window.outerWidth - window.innerWidth > 160;
+                    const heightThreshold = window.outerHeight - window.innerHeight > 160;
+                    const orientation = widthThreshold ? 'vertical' : 'horizontal';
+                    
+                    if (!(heightThreshold && widthThreshold) && 
+                        ((window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) || 
+                         widthThreshold || heightThreshold)) {
+                        devtoolsWarning.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        devtoolsWarning.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+                
+                // 初始检查
+                checkDevTools();
+                
+                // 定期检查
+                setInterval(checkDevTools, 1000);
+                
+                // 监听窗口大小变化
+                window.addEventListener('resize', checkDevTools);
+            }
+            
+            // 4. 禁用键盘快捷键
+            document.addEventListener('keydown', function(e) {
+                // 禁用F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    showWatermark();
+                    return false;
+                }
+                
+                // 禁用Ctrl+Shift+I、Ctrl+Shift+C、Ctrl+Shift+J
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) {
+                    e.preventDefault();
+                    showWatermark();
+                    return false;
+                }
+                
+                // 禁用Ctrl+U（查看源代码）
+                if (e.ctrlKey && e.key === 'u') {
+                    e.preventDefault();
+                    showWatermark();
+                    return false;
+                }
+                
+                // 禁用PrintScreen键
+                if (e.key === 'PrintScreen') {
+                    e.preventDefault();
+                    showWatermark();
+                    return false;
+                }
+                
+                // 禁用Alt+PrintScreen键
+                if (e.altKey && e.key === 'PrintScreen') {
+                    e.preventDefault();
+                    showWatermark();
+                    return false;
+                }
+                
+                // 禁用Windows+PrintScreen键
+                if (e.key === 'PrintScreen' && e.getModifierState('Meta')) {
+                    e.preventDefault();
+                    showWatermark();
+                    return false;
+                }
+            });
+            
+            // 5. 水印功能
+            const watermark = document.getElementById('watermark');
+            const closeWatermark = document.getElementById('closeWatermark');
+            
+            function showWatermark() {
+                watermark.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function hideWatermark() {
+                watermark.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+            
+            closeWatermark.addEventListener('click', hideWatermark);
+            
+            // 6. 禁用复制功能
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                showWatermark();
+                return false;
+            });
+            
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                showWatermark();
+                return false;
+            });
+            
+            // 7. 禁用全屏截图（通过检测窗口大小变化）
+            let lastInnerWidth = window.innerWidth;
+            let lastInnerHeight = window.innerHeight;
+            
+            window.addEventListener('resize', function() {
+                if (window.innerWidth !== lastInnerWidth || window.innerHeight !== lastInnerHeight) {
+                    // 窗口大小变化可能是用户调整了窗口，也可能是截图工具导致的
+                    // 这里我们只做简单检测
+                    setTimeout(function() {
+                        if (window.innerWidth === lastInnerWidth && window.innerHeight === lastInnerHeight) {
+                            // 可能是截图工具导致的短暂变化
+                            showWatermark();
+                        }
+                        lastInnerWidth = window.innerWidth;
+                        lastInnerHeight = window.innerHeight;
+                    }, 100);
+                }
+            });
+            
+            // 8. 检测浏览器扩展和开发者工具
+            setInterval(function() {
+                const debuggerTest = () => { };
+                console.log(debuggerTest);
+                console.clear();
+            }, 1000);
+            
+            // 初始化开发者工具检测
+            detectDevTools();
         });
     </script>
 </body>
