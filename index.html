@@ -36,6 +36,11 @@
             --card-bg: rgba(255, 255, 255, 0.05);
             --card-border: rgba(255, 255, 255, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.2);
+            
+            /* 新增页脚变量 */
+            --footer-bg: rgba(10, 10, 20, 0.8);
+            --footer-text: var(--text-secondary);
+            --footer-border: rgba(255, 255, 255, 0.1);
         }
         
         /* 亮色主题变量 */
@@ -48,6 +53,11 @@
             --card-bg: rgba(255, 255, 255, 0.7);
             --card-border: rgba(0, 0, 0, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.1);
+            
+            /* 更新页脚变量为亮色主题 */
+            --footer-bg: rgba(240, 242, 245, 0.9);
+            --footer-text: var(--text-secondary);
+            --footer-border: rgba(0, 0, 0, 0.1);
         }
         
         body {
@@ -680,13 +690,14 @@
             color: var(--text-secondary);
         }
         
-        /* 页脚样式 */
+        /* 页脚样式 - 已修改使用变量 */
         footer {
-            background: rgba(10, 10, 20, 0.8);
+            background: var(--footer-bg);
             padding: 30px 0;
             text-align: center;
             margin-top: 0;
-            border-top: 1px solid var(--card-border);
+            border-top: 1px solid var(--footer-border);
+            transition: var(--transition);
         }
         
         .footer-content {
@@ -701,7 +712,7 @@
         }
         
         .copyright {
-            color: var(--text-secondary);
+            color: var(--footer-text);
             font-size: 16px;
         }
         
@@ -1270,7 +1281,9 @@
         <div class="container">
             <div class="page-title">
                 <h1>一万粉丝福利抽奖</h1>
-                <p>感谢每位粉丝支持,图标与图片不符不用管</p>
+                <p>感谢每位粉丝支持！
+                具体每项奖品抽奖人数会根据参加人数而定
+                报名结束后会将人数写出</p>
             </div>
             
             <div class="lottery-content">
@@ -1280,39 +1293,37 @@
                         <div class="prize-item">
                             
                             <h4>还未准备</h4>
-                            <p>价值 ¥0</p>
+                            <p>抽奖人数:</p>
                         </div>
                         
                         <div class="prize-item">
                             
                             <h4>还未准备</h4>
-                            <p>价值 ¥0</p>
+                            <p>抽奖人数:</p>
                         </div>
                         
                         <div class="prize-item">
                             
                             <h4>还未准备</h4>
-                            <p>价值 ¥0</p>
+                            <p>抽奖人数:</p>
                         </div>
                         
                         <div class="prize-item">
                             
                             <h4>还未准备</h4>
-                            <p>价值 ¥0</p>
+                            <p>抽奖人数:</p>
                         </div>
                         
-                        <!-- 新增奖品1 -->
                         <div class="prize-item">
                             
                             <h4>还未准备</h4>
-                            <p>价值 ¥0</p>
+                            <p>抽奖人数:</p>
                         </div>
                         
-                        <!-- 新增奖品2 -->
                         <div class="prize-item">
                             
                             <h4>还未准备</h4>
-                            <p>价值 ¥0</p>
+                            <p>抽奖人数:</p>
                         </div>
                     </div>
                 </div>
@@ -1321,6 +1332,7 @@
                     <h3><i class="fas fa-info-circle"></i>(必看)抽奖规则说明</h3>
                     <ul>
                         <li>本次"一万粉丝回馈抽奖"在年月日开始报名，于年月日结束报名</li>
+                        <li>本次抽奖大约80%人中奖(小数点四舍五入)</li>
                         <li>所有参加抽奖的对象必须为我粉丝，且在报名提交时关注我的时长不小于20天，未满足的将被删除</li>
                         <li>奖品不可折现</li>
                         <li>抽奖完成后我将在我的b站动态通知，抽奖操作过程请再次访问该页面上我上载的视频</li>
