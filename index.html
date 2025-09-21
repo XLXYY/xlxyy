@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>星澜小月月的小窝</title>
+    <title>星澜小月月的小窝 - 版权保护</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -787,7 +787,7 @@
             background: var(--purple);
         }
         
-        /* 水印样式 */
+        /* 水印样式 - 修复版本 */
         .watermark {
             position: fixed;
             top: 0;
@@ -798,41 +798,53 @@
             z-index: 9999;
             opacity: 0;
             transition: opacity 0.5s ease;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            visibility: hidden;
         }
         
         .watermark.active {
             opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
         
         .watermark-text {
             font-size: 3rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             text-align: center;
-            text-shadow: 0 0 10px rgba(255, 107, 156, 0.8);
+            text-shadow: 0 0 15px rgba(255, 107, 156, 0.9);
             margin-bottom: 2rem;
+            padding: 0 20px;
         }
         
         .watermark-subtext {
             font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.8);
             text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 20px;
         }
         
         .watermark-close {
-            position: absolute;
-            bottom: 30px;
-            padding: 12px 30px;
+            padding: 15px 40px;
             background: var(--pink);
             color: white;
             border: none;
             border-radius: 30px;
             cursor: pointer;
             font-size: 1.2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .watermark-close:hover {
+            transform: scale(1.05);
+            background: var(--purple);
         }
         
         /* 开发者工具警告 */
@@ -844,7 +856,7 @@
             height: 100%;
             background: var(--dark);
             z-index: 10000;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -912,6 +924,10 @@
             .cosmic-title {
                 font-size: 3.5rem;
             }
+            
+            .watermark-text {
+                font-size: 2.5rem;
+            }
         }
         
         @media (max-width: 768px) {
@@ -920,7 +936,7 @@
                 top: 80px;
                 left: 0;
                 right: 0;
-                background: var(--bg-secondary); /* 修改为使用主题变量 */
+                background: var(--bg-secondary);
                 flex-direction: column;
                 align-items: center;
                 padding: 20px 0;
@@ -982,6 +998,14 @@
             
             .back-to-top {
                 right: 20px;
+            }
+            
+            .watermark-text {
+                font-size: 2rem;
+            }
+            
+            .watermark-subtext {
+                font-size: 1.2rem;
             }
         }
         
@@ -1052,19 +1076,32 @@
             .back-to-top {
                 right: 15px;
             }
+            
+            .watermark-text {
+                font-size: 1.8rem;
+            }
+            
+            .watermark-subtext {
+                font-size: 1rem;
+            }
+            
+            .watermark-close {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 水印层 -->
+    <!-- 水印层 - 修复版本 -->
     <div class="watermark" id="watermark">
-        <div class="watermark-text">星澜小月月-XingLan</div>
-        <div class="watermark-subtext">禁止复制或截屏</div>
+        <div class="watermark-text">版权保护 - 星澜小月月-XingLan</div>
+        <div class="watermark-subtext">未经授权禁止复制或截屏</div>
         <button class="watermark-close" id="closeWatermark">关闭水印</button>
     </div>
 
     <!-- 开发者工具警告 -->
-    <div class="devtools-warning" id="devtoolsWarning" style="display: none;">
+    <div class="devtools-warning" id="devtoolsWarning">
         <h1>⚠️ 安全警告</h1>
         <p>检测到开发者工具已打开，请关闭开发者工具以继续浏览</p>
         <p>此操作已被记录</p>
@@ -1116,7 +1153,7 @@
                     
                     <!-- 网易云播放器 - 已更新 -->
                     <div class="music-player">
-                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110 src="//music.163.com/outchain/player?type=0&id=14255236736&auto=1&height=90"></iframe>
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=420 src="//music.163.com/outchain/player?type=0&id=14255236736&auto=1&height=430"></iframe>
                     </div>
                 </div>
             </div>
@@ -1692,11 +1729,12 @@
                 });
             });
             
-            // 版权保护功能
+            // 版权保护功能 - 修复版本
             
             // 1. 禁用文本选择和右键菜单
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
+                showWatermark();
                 return false;
             });
             
@@ -1713,11 +1751,8 @@
                 function checkDevTools() {
                     const widthThreshold = window.outerWidth - window.innerWidth > 160;
                     const heightThreshold = window.outerHeight - window.innerHeight > 160;
-                    const orientation = widthThreshold ? 'vertical' : 'horizontal';
                     
-                    if (!(heightThreshold && widthThreshold) && 
-                        ((window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) || 
-                         widthThreshold || heightThreshold)) {
+                    if ((widthThreshold || heightThreshold) && !document.fullscreenElement) {
                         devtoolsWarning.style.display = 'flex';
                         document.body.style.overflow = 'hidden';
                     } else {
@@ -1781,7 +1816,7 @@
                 }
             });
             
-            // 5. 水印功能
+            // 5. 水印功能 - 修复版本
             const watermark = document.getElementById('watermark');
             const closeWatermark = document.getElementById('closeWatermark');
             
@@ -1795,7 +1830,17 @@
                 document.body.style.overflow = 'auto';
             }
             
-            closeWatermark.addEventListener('click', hideWatermark);
+            closeWatermark.addEventListener('click', function(e) {
+                e.stopPropagation();
+                hideWatermark();
+            });
+            
+            // 防止点击水印背景关闭
+            watermark.addEventListener('click', function(e) {
+                if (e.target === watermark) {
+                    e.stopPropagation();
+                }
+            });
             
             // 6. 禁用复制功能
             document.addEventListener('copy', function(e) {
@@ -1817,7 +1862,6 @@
             window.addEventListener('resize', function() {
                 if (window.innerWidth !== lastInnerWidth || window.innerHeight !== lastInnerHeight) {
                     // 窗口大小变化可能是用户调整了窗口，也可能是截图工具导致的
-                    // 这里我们只做简单检测
                     setTimeout(function() {
                         if (window.innerWidth === lastInnerWidth && window.innerHeight === lastInnerHeight) {
                             // 可能是截图工具导致的短暂变化
