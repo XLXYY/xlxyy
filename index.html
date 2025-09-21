@@ -129,6 +129,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            cursor: pointer;
         }
         
         .logo-icon {
@@ -877,6 +878,57 @@
             max-width: 600px;
         }
         
+        /* 彩蛋样式 */
+        .cat-emoji {
+            position: fixed;
+            font-size: 28px;
+            pointer-events: none;
+            z-index: 9998;
+            animation: floatCat 5s forwards;
+        }
+        
+        .easter-egg-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 2px solid var(--pink);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 10001;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        
+        .easter-egg-message h3 {
+            color: var(--pink);
+            margin-bottom: 15px;
+        }
+        
+        .easter-egg-message p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .easter-egg-close {
+            padding: 10px 25px;
+            background: var(--pink);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .easter-egg-close:hover {
+            background: var(--purple);
+            transform: scale(1.05);
+        }
+        
         /* 动画效果 */
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -912,6 +964,17 @@
             100% { 
                 opacity: 0;
                 transform: translate(-50%, -100%) scale(1.5) rotate(10deg);
+            }
+        }
+        
+        @keyframes floatCat {
+            0% { 
+                opacity: 1;
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% { 
+                opacity: 0;
+                transform: translate(var(--translate-x), -100vh) rotate(360deg);
             }
         }
         
@@ -1100,6 +1163,14 @@
         <button class="watermark-close" id="closeWatermark">关闭水印</button>
     </div>
 
+    <!-- 彩蛋消息 -->
+    <div class="easter-egg-message" id="easterEggMessage">
+        <h3>🎉 恭喜你发现了彩蛋！</h3>
+        <p>你第<span id="easterEggCount">0</span>次发现了我的彩蛋！</p>
+        <p>谢谢你探索我的小窝～希望你今天开心！</p>
+        <button class="easter-egg-close" id="closeEasterEgg">关闭</button>
+    </div>
+
     <!-- 开发者工具警告 -->
     <div class="devtools-warning" id="devtoolsWarning">
         <h1>⚠️ 安全警告</h1>
@@ -1111,7 +1182,7 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">
+                <div class="logo" id="easterEggTrigger">
                     <div class="logo-icon"><i class="fas fa-paw"></i></div>
                     <div class="logo-text">星澜小月月-XingLan</div>
                 </div>
@@ -1684,10 +1755,35 @@
             
             // 检查本地存储中的主题偏好
             const savedTheme = localStorage.getItem('theme');
+            const savedThemeManual = localStorage.getItem('themeManual'); // 标记是否是手动设置的
+            
+            // 根据时间自动设置主题（如果不是手动设置的）
+            function setThemeBasedOnTime() {
+                if (savedThemeManual === 'true') return; // 如果是手动设置的，不自动更改
+                
+                const now = new Date();
+                const hour = now.getHours();
+                
+                // 晚上6点到早上6点使用深色模式，其他时间使用浅色模式
+                if (hour >= 18 || hour < 6) {
+                    document.body.setAttribute('data-theme', 'dark');
+                    updateThemeIcon('dark');
+                } else {
+                    document.body.setAttribute('data-theme', 'light');
+                    updateThemeIcon('light');
+                }
+            }
+            
+            // 初始设置主题
             if (savedTheme) {
                 document.body.setAttribute('data-theme', savedTheme);
                 updateThemeIcon(savedTheme);
+            } else {
+                setThemeBasedOnTime();
             }
+            
+            // 设置定时器，每小时检查一次时间并更新主题
+            setInterval(setThemeBasedOnTime, 60 * 60 * 1000);
             
             // 切换主题
             themeToggle.addEventListener('click', function() {
@@ -1696,6 +1792,7 @@
                 
                 document.body.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
+                localStorage.setItem('themeManual', 'true'); // 标记为用户手动设置
                 updateThemeIcon(newTheme);
             });
             
@@ -1729,7 +1826,82 @@
                 });
             });
             
-            // 版权保护功能 - 修复版本
+            // 彩蛋功能
+            const easterEggTrigger = document.getElementById('easterEggTrigger');
+            const easterEggMessage = document.getElementById('easterEggMessage');
+            const easterEggCountElement = document.getElementById('easterEggCount');
+            const closeEasterEgg = document.getElementById('closeEasterEgg');
+            
+            let clickCount = 0;
+            let lastClickTime = 0;
+            let easterEggFoundCount = parseInt(localStorage.getItem('easterEggFoundCount') || '0');
+            
+            // 初始化彩蛋计数显示
+            easterEggCountElement.textContent = easterEggFoundCount;
+            
+            easterEggTrigger.addEventListener('click', function(e) {
+                const currentTime = new Date().getTime();
+                
+                // 检查是否在1秒内连续点击
+                if (currentTime - lastClickTime < 1000) {
+                    clickCount++;
+                } else {
+                    clickCount = 1;
+                }
+                
+                lastClickTime = currentTime;
+                
+                // 如果连续点击5次，触发彩蛋
+                if (clickCount >= 5) {
+                    // 重置计数器
+                    clickCount = 0;
+                    
+                    // 增加彩蛋发现计数
+                    easterEggFoundCount++;
+                    localStorage.setItem('easterEggFoundCount', easterEggFoundCount);
+                    easterEggCountElement.textContent = easterEggFoundCount;
+                    
+                    // 显示彩蛋消息
+                    easterEggMessage.style.display = 'block';
+                    
+                    // 创建漂浮的海豚emoji
+                    createFloatingCats(20);
+                }
+            });
+            
+            // 关闭彩蛋消息
+            closeEasterEgg.addEventListener('click', function() {
+                easterEggMessage.style.display = 'none';
+            });
+            
+            // 创建漂浮的海豚emoji
+            function createFloatingCats(count) {
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => {
+                        const cat = document.createElement('div');
+                        cat.className = 'cat-emoji';
+                        cat.innerHTML = '🐬';
+                        
+                        // 随机位置
+                        const startX = Math.random() * window.innerWidth;
+                        cat.style.left = `${startX}px`;
+                        cat.style.bottom = '0';
+                        
+                        // 随机动画参数
+                        const translateX = (Math.random() - 0.5) * 200;
+                        cat.style.setProperty('--translate-x', `${translateX}px`);
+                        
+                        document.body.appendChild(cat);
+                        
+                        // 动画结束后移除元素
+                        setTimeout(() => {
+                            cat.remove();
+                        }, 5000);
+                    }, i * 200);
+                }
+            }
+            
+            
             
             // 1. 禁用文本选择和右键菜单
             document.addEventListener('contextmenu', function(e) {
