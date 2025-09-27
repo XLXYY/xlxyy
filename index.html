@@ -837,7 +837,7 @@
             background: var(--purple);
         }
         
-        /* 水印样式 - 修复版本 */
+        /* 水印样式 - 优化版本 */
         .watermark {
             position: fixed;
             top: 0;
@@ -847,7 +847,7 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
@@ -888,44 +888,49 @@
             justify-content: center;
         }
         
-        .warning-icon::before {
-            content: '';
-            display: inline-block;
-            width: 0;
-            height: 0;
-            border-left: 40px solid transparent;
-            border-right: 40px solid transparent;
-            border-bottom: 70px solid #ff6b6b;
-            position: relative;
-        }
-        
-        .warning-icon::after {
-            content: '!';
-            position: absolute;
-            color: white;
-            font-size: 3rem;
-            font-weight: bold;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -40%);
-        }
-        
+        /* 关闭按钮样式 - 优化版本 */
         .watermark-close {
-            padding: 15px 40px;
-            background: var(--pink);
-            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
             border: none;
-            border-radius: 30px;
-            cursor: pointer;
+            color: white;
+            padding: 15px 40px;
             font-size: 1.2rem;
             font-weight: 600;
-            transition: var(--transition);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 20px;
+        }
+        
+        .watermark-close::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            transition: all 0.4s ease;
+            z-index: -1;
         }
         
         .watermark-close:hover {
-            transform: scale(1.05);
-            background: var(--purple);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .watermark-close:hover::before {
+            left: 0;
+        }
+        
+        .watermark-close:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
         
         /* 开发者工具警告 */
@@ -1232,14 +1237,9 @@
                 font-size: 4rem;
             }
             
-            .warning-icon::before {
-                border-left: 30px solid transparent;
-                border-right: 30px solid transparent;
-                border-bottom: 50px solid #ff6b6b;
-            }
-            
-            .warning-icon::after {
-                font-size: 2rem;
+            .watermark-close {
+                padding: 12px 30px;
+                font-size: 1rem;
             }
         }
         
@@ -1328,16 +1328,6 @@
                 font-size: 3rem;
             }
             
-            .warning-icon::before {
-                border-left: 20px solid transparent;
-                border-right: 20px solid transparent;
-                border-bottom: 35px solid #ff6b6b;
-            }
-            
-            .warning-icon::after {
-                font-size: 1.5rem;
-            }
-            
             .game-title {
                 font-size: 1.8rem;
             }
@@ -1362,9 +1352,9 @@
     <!-- 星辰效果 -->
     <div class="stars" id="stars"></div>
 
-    <!-- 水印层 - 修复版本 -->
+    <!-- 水印层 - 优化版本 -->
     <div class="watermark" id="watermark">
-        <div class="warning-icon"></div>
+        <div class="warning-icon"><i class="fas fa-exclamation-triangle"></i></div>
         <div class="watermark-text">星澜小月月-XingLan</div>
         <div class="watermark-subtext">禁止复制或截屏</div>
         <button class="watermark-close" id="closeWatermark">关闭水印</button>
@@ -2336,8 +2326,13 @@
                 window.addEventListener('resize', checkDevTools);
             }
             
-            // 4. 禁用键盘快捷键
+            // 4. 禁用键盘快捷键 - 修复：在彩蛋游戏输入框中不触发
             document.addEventListener('keydown', function(e) {
+                // 如果事件发生在彩蛋游戏输入框中，不触发水印
+                if (e.target.id === 'guessInput') {
+                    return;
+                }
+                
                 // 禁用F12
                 if (e.key === 'F12') {
                     e.preventDefault();
@@ -2381,7 +2376,7 @@
                 }
             });
             
-            // 5. 水印功能 - 修复版本
+            // 5. 水印功能 - 优化版本
             const watermark = document.getElementById('watermark');
             const closeWatermark = document.getElementById('closeWatermark');
             
