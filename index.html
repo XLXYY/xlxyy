@@ -1,0 +1,2675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星澜小月月的小窝</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffd166;
+            --dark: #1a1a2e;
+            --light: #f7f9fc;
+            --purple: #9d65c9;
+            --blue: #118ab2;
+            --pink: #ff6b9c;
+            --transition: all 0.3s ease;
+            
+            /* 主题相关变量 - 默认暗色主题 */
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #f7f9fc;
+            --text-secondary: #e0e0ff;
+            --header-bg: rgba(26, 26, 46, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            
+            /* 新增页脚变量 */
+            --footer-bg: rgba(10, 10, 20, 0.8);
+            --footer-text: var(--text-secondary);
+            --footer-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 亮色主题变量 */
+        [data-theme="light"] {
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --header-bg: rgba(240, 242, 245, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            
+            /* 更新页脚变量为亮色主题 */
+            --footer-bg: rgba(240, 242, 245, 0.9);
+            --footer-text: var(--text-secondary);
+            --footer-border: rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+            cursor: default;
+            transition: var(--transition);
+        }
+        
+        body.splash-active {
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(157, 101, 201, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 30% 60%, rgba(255, 107, 156, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 70% 40%, rgba(78, 205, 196, 0.1) 0%, transparent 25%);
+            z-index: -1;
+        }
+        
+        [data-theme="light"] body::before {
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(157, 101, 201, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 209, 102, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 30% 60%, rgba(255, 107, 156, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 70% 40%, rgba(78, 205, 196, 0.05) 0%, transparent 25%);
+        }
+
+        /* 进入等待页面样式 */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        #splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .splash-content {
+            text-align: center;
+            position: relative;
+        }
+        
+        .paw-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 40px;
+        }
+        
+        .paw-print-loading {
+            font-size: 80px;
+            color: var(--pink);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: paw-pulse 2s infinite;
+        }
+        
+        .loading-text {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+        
+        .loading-subtext {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+        
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .loading-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--pink);
+            animation: loading-bounce 1.4s infinite ease-in-out both;
+        }
+        
+        .loading-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .loading-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes paw-pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes loading-bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* 星辰效果 - 只在暗色模式下显示 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        [data-theme="light"] .stars {
+            display: none;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(45deg, white, transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            animation: meteor 5s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes meteor {
+            0% {
+                opacity: 1;
+                transform: translateX(0) translateY(0) rotate(45deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(500px) translateY(500px) rotate(45deg);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            border-bottom: 1px solid var(--card-border);
+            transition: var(--transition);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 6px 12px;
+            border-radius: 30px;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:hover, 
+        .nav-links a.active {
+            background: rgba(78, 205, 196, 0.2);
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after, 
+        .nav-links a.active::after {
+            width: 70%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        /* 页面内容样式 */
+        .page {
+            min-height: 100vh;
+            display: none;
+            padding: 120px 0 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .page-title h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--pink));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .page-title p {
+            color: var(--text-secondary);
+        }
+        
+        /* 首页样式 */
+        .home-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--accent);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            animation: float 6s ease-in-out infinite;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .intro-text {
+            max-width: 600px;
+        }
+        
+        .intro-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .intro-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+        }
+
+        /* 网易云播放器样式 */
+        .music-player {
+            margin-top: 30px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .music-player iframe {
+            border-radius: 12px;
+            box-shadow: 0 8px 20px var(--shadow-color);
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* 设定故事页面样式 */
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+        
+        .story-content h3 {
+            color: var(--pink);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .story-content p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+        
+        .story-content .highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        /* 摄影作品页面 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            height: 250px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: var(--transition);
+            background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 20px;
+            color: white;
+        }
+        
+        /* 扩列页面 - 已更新 */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .contact-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            border-color: var(--pink);
+        }
+        
+        .contact-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--pink);
+        }
+        
+        .contact-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .contact-card p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .contact-email {
+            font-size: 16px;
+            word-break: break-all;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+        
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid var(--pink);
+            color: var(--pink);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        
+        .contact-btn:hover {
+            background: var(--pink);
+            color: var(--dark);
+            transform: scale(1.05);
+        }
+        
+        /* 反馈与建议页面样式 */
+        .feedback-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px var(--shadow-color);
+            text-align: center;
+        }
+        
+        .feedback-content h3 {
+            color: var(--pink);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .feedback-content p {
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+        
+        .feedback-btn {
+            display: inline-block;
+            padding: 16px 50px;
+            background: linear-gradient(90deg, var(--pink), var(--purple));
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(157, 101, 201, 0.4);
+            letter-spacing: 1px;
+        }
+        
+        .feedback-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(157, 101, 201, 0.6);
+        }
+        
+        /* 页面 */
+        .cosmic-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 80vh;
+        }
+        
+        .cosmic-title {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #a18cd1, #fbc2eb, #8fd3f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(188, 143, 243, 0.5);
+        }
+        
+        .cosmic-subtitle {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+        
+        .search-container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 20px 25px;
+            font-size: 18px;
+            color: var(--text-primary);
+            outline: none;
+        }
+        
+        .search-btn {
+            background: linear-gradient(90deg, var(--purple), #8fd3f4);
+            border: none;
+            color: white;
+            padding: 0 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(157, 101, 201, 0.5);
+        }
+        
+        .coming-soon {
+            margin-top: 80px;
+            font-size: 2.5rem;
+            color: var(--pink);
+            text-align: center;
+            animation: glow 2s infinite alternate;
+        }
+        
+        /* 网站统计信息样式 */
+        .site-stats {
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            background: transparent;
+            border: none;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-icon {
+            font-size: 24px;
+            color: var(--pink);
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+        
+        /* 页脚样式 - 已修改使用变量 */
+        footer {
+            background: var(--footer-bg);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 0;
+            border-top: 1px solid var(--footer-border);
+            transition: var(--transition);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            color: var(--pink);
+            margin-bottom: 20px;
+        }
+        
+        .copyright {
+            color: var(--footer-text);
+            font-size: 16px;
+        }
+        
+        /* 点击特效样式 */
+        .paw-print {
+            position: fixed;
+            font-size: 32px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fadePaw 1.5s forwards;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: var(--transition);
+            border: none;
+            font-size: 24px;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(30deg);
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--pink);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            border: none;
+            font-size: 24px;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--purple);
+        }
+        
+        /* 开发者工具警告 */
+        .devtools-warning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .devtools-warning h1 {
+            font-size: 2.5rem;
+            color: var(--pink);
+            margin-bottom: 20px;
+        }
+        
+        .devtools-warning p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            max-width: 600px;
+        }
+        
+        /* 彩蛋样式 - 游戏选择菜单 */
+        .game-selection {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 2px solid var(--pink);
+            border-radius: 15px;
+            padding: 30px;
+            z-index: 10001;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            display: none;
+            max-width: 500px;
+            width: 90%;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .game-selection.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .game-selection h2 {
+            font-size: 2.5rem;
+            color: var(--pink);
+            margin-bottom: 10px;
+        }
+        
+        .game-selection p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        
+        .game-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .game-option {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .game-option:hover {
+            transform: translateY(-5px);
+            border-color: var(--pink);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+        
+        .game-option i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--pink);
+        }
+        
+        .game-option h3 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+        
+        .game-selection-button {
+            padding: 12px 30px;
+            background: var(--pink);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            margin: 5px;
+        }
+        
+        .game-selection-button:hover {
+            background: var(--purple);
+            transform: scale(1.05);
+        }
+        
+        .game-selection-button.secondary {
+            background: transparent;
+            border: 2px solid var(--pink);
+            color: var(--pink);
+        }
+        
+        /* 猜数字游戏样式 */
+        .number-game {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 2px solid var(--pink);
+            border-radius: 15px;
+            padding: 30px;
+            z-index: 10002;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            display: none;
+            max-width: 500px;
+            width: 90%;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .number-game.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .game-title {
+            font-size: 2.5rem;
+            color: var(--pink);
+            margin-bottom: 10px;
+        }
+        
+        .game-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        
+        .game-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .game-input:focus {
+            border-color: var(--pink);
+            outline: none;
+        }
+        
+        .game-button {
+            padding: 12px 30px;
+            background: var(--pink);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            margin: 5px;
+        }
+        
+        .game-button:hover {
+            background: var(--purple);
+            transform: scale(1.05);
+        }
+        
+        .game-button.secondary {
+            background: transparent;
+            border: 2px solid var(--pink);
+            color: var(--pink);
+        }
+        
+        .game-message {
+            margin: 20px 0;
+            font-size: 1.2rem;
+            min-height: 30px;
+            color: var(--text-secondary);
+        }
+        
+        .game-stats {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+        
+        /* 记忆匹配游戏样式 - 改进版 */
+        .memory-game {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 2px solid var(--pink);
+            border-radius: 15px;
+            padding: 30px;
+            z-index: 10002;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            display: none;
+            max-width: 700px;
+            width: 90%;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .memory-game.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .memory-board {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        
+        .memory-card {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .memory-card .front,
+        .memory-card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .memory-card .front {
+            background: var(--pink);
+            transform: rotateY(180deg);
+            font-size: 24px;
+            color: white;
+        }
+        
+        .memory-card .back {
+            background: var(--purple);
+            font-size: 20px;
+            color: white;
+        }
+        
+        .memory-card.flipped .front {
+            transform: rotateY(0deg);
+        }
+        
+        .memory-card.flipped .back {
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched .front {
+            background: var(--secondary);
+        }
+        
+        .memory-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+        
+        /* 庆祝效果 */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10003;
+            display: none;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--pink);
+            animation: confetti-fall 5s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px var(--pink); }
+            to { text-shadow: 0 0 20px var(--pink), 0 0 30px var(--purple); }
+        }
+        
+        @keyframes fadePaw {
+            0% { 
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            100% { 
+                opacity: 0;
+                transform: translate(-50%, -100%) scale(1.5) rotate(10deg);
+            }
+        }
+        
+        @keyframes floatCat {
+            0% { 
+                opacity: 1;
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% { 
+                opacity: 0;
+                transform: translate(var(--translate-x), -100vh) rotate(360deg);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .page-title h1 {
+                font-size: 2.8rem;
+            }
+            
+            .cosmic-title {
+                font-size: 3.5rem;
+            }
+            
+            .game-title {
+                font-size: 2rem;
+            }
+            
+            .game-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 15px;
+                transform: translateY(-150%);
+                transition: var(--transition);
+                z-index: 999;
+                box-shadow: 0 10px 20px var(--shadow-color);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .page-title h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cosmic-title {
+                font-size: 2.8rem;
+            }
+            
+            .cosmic-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .home-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .story-content {
+                padding: 25px 20px;
+            }
+            
+            .stats-container {
+                gap: 30px;
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
+            
+            .theme-toggle,
+            .back-to-top {
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .theme-toggle {
+                left: 20px;
+            }
+            
+            .back-to-top {
+                right: 20px;
+            }
+            
+            .game-title {
+                font-size: 1.8rem;
+            }
+            
+            .game-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .game-input {
+                font-size: 1rem;
+                padding: 12px;
+            }
+            
+            .game-button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+            
+            .memory-card {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .memory-board {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .cosmic-title {
+                font-size: 2rem;
+            }
+            
+            .cosmic-subtitle {
+                font-size: 1rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+            
+            .search-input {
+                padding: 15px;
+            }
+            
+            .search-btn {
+                padding: 15px;
+                border-radius: 0 0 15px 15px;
+            }
+            
+            .feedback-content {
+                padding: 25px 20px;
+            }
+            
+            .feedback-btn {
+                padding: 14px 40px;
+                font-size: 1.2rem;
+            }
+            
+            .stats-container {
+                gap: 20px;
+            }
+            
+            .stat-item {
+                flex: 0 0 40%;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+            
+            .stat-label {
+                font-size: 14px;
+            }
+            
+            .theme-toggle,
+            .back-to-top {
+                bottom: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .theme-toggle {
+                left: 15px;
+            }
+            
+            .back-to-top {
+                right: 15px;
+            }
+            
+            .game-title {
+                font-size: 1.8rem;
+            }
+            
+            .game-subtitle {
+                font-size: 1rem;
+            }
+            
+            .game-input {
+                font-size: 1rem;
+                padding: 12px;
+            }
+            
+            .game-button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+            
+            .memory-card {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+            
+            .memory-board {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 250px;
+            }
+            
+            .game-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 进入等待页面 -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="paw-container">
+                <div class="paw-print-loading">🐾</div>
+            </div>
+            <div class="loading-text">正在进入星澜小月月的小窝</div>
+            <div class="loading-subtext">请稍候...</div>
+            <div class="loading-dots">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 星辰效果 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 彩蛋游戏选择菜单 -->
+    <div class="game-selection" id="gameSelection">
+        <h2>你发现了彩蛋!</h2>
+        <p>选择一个游戏来玩吧~</p>
+        <div class="game-options">
+            <div class="game-option" data-game="numberGame">
+                <i class="fas fa-dice"></i>
+                <h3>猜数字</h3>
+            </div>
+            <div class="game-option" data-game="memoryGame">
+                <i class="fas fa-brain"></i>
+                <h3>记忆匹配</h3>
+            </div>
+        </div>
+        <button class="game-selection-button secondary" id="closeGameSelection">关闭</button>
+    </div>
+
+    <!-- 猜数字游戏彩蛋 -->
+    <div class="number-game" id="numberGame">
+        <h2 class="game-title">猜数字游戏</h2>
+        <p class="game-subtitle">猜一个1-100之间的数字</p>
+        <input type="number" class="game-input" id="guessInput" placeholder="输入1-100之间的数字" min="1" max="100">
+        <div class="game-message" id="gameMessage"></div>
+        <div class="game-stats" id="gameStats">尝试次数: 0</div>
+        <button class="game-button" id="guessButton">猜!</button>
+        <button class="game-button secondary" id="restartButton" style="display:none;">再来一次</button>
+        <button class="game-button secondary" id="backToSelection">返回选择</button>
+    </div>
+
+    <!-- 记忆匹配游戏彩蛋 -->
+    <div class="memory-game" id="memoryGame">
+        <h2 class="game-title">记忆匹配游戏</h2>
+        <p class="game-subtitle">翻开卡片，找到所有匹配的图案</p>
+        <div class="memory-board" id="memoryBoard"></div>
+        <div class="memory-stats">
+            <div>尝试次数: <span id="memoryAttempts">0</span></div>
+            <div>匹配对数: <span id="memoryMatches">0</span>/10</div>
+        </div>
+        <button class="game-button" id="restartMemory">重新开始</button>
+        <button class="game-button secondary" id="backToSelectionMemory">返回选择</button>
+    </div>
+
+    <!-- 庆祝效果 -->
+    <div class="celebration" id="celebration"></div>
+
+    <!-- 开发者工具警告 -->
+    <div class="devtools-warning" id="devtoolsWarning">
+        <h1>⚠️ 安全警告</h1>
+        <p>检测到开发者工具已打开，请关闭开发者工具以继续浏览</p>
+    </div>
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" id="easterEggTrigger">
+                    <div class="logo-icon"><i class="fas fa-paw"></i></div>
+                    <div class="logo-text">星澜小月月-XingLan</div>
+                </div>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i>首页</a>
+                    <a href="#" class="nav-link" data-page="story"><i class="fas fa-book"></i>设定故事</a>
+                    <a href="#" class="nav-link" data-page="gallery"><i class="fas fa-camera"></i>摄影</a>
+                    <a href="#" class="nav-link" data-page="contact"><i class="fas fa-user-friends"></i>扩列</a>
+                    <a href="#" class="nav-link" data-page="feedback"><i class="fas fa-comment-alt"></i>反馈与建议</a>
+                    <a href="#" class="nav-link" data-page="cosmic"><i class="fas fa-star"></i> 搜索一下</a>
+                </div>
+                
+                <div class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 首页 -->
+    <section id="home" class="page active">
+        <div class="container">
+            <div class="page-title">
+                <h1>关于我</h1>
+                <p>福瑞 | up主 | 内容创作者</p>
+            </div>
+            
+            <div class="home-content">
+                <div class="avatar-container">
+                    星澜小月月-XingLan
+                </div>
+                
+                <div class="intro-text">
+                    <h2>你好，我是星澜小月月-XingLan！🌟欢迎光临我的小窝！</h2>
+                    <p>我的设定是一只小海豚🐬，平时喜欢吃桃子，我的生日在每年的2月20日 </p>
+                    <p>坐标位于四川成都，喜欢打羽毛球，游戏的话当前正在攻克如何玩，人格类型是isfp小画家，欢迎来找我玩哦！</p>
+                    <p>快要临近一万粉丝，我将会进行抽奖，敬请期待！</p>
+                    <p>---------------------------------------------------------------测试段落----------------------------------------------------------------</p>
+                    
+                    <!-- 网易云播放器 -->
+                    <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=335 height=110 src="//music.163.com/outchain/player?type=0&id=14255236736&auto=1&height=90"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设定故事 -->
+    <section id="story" class="page">
+        <div class="container">
+            <div class="page-title">
+                <h1>设定故事</h1>
+                <p>星澜小月月的空间冒险</p>
+            </div>
+            
+            <div class="story-content">
+                <h3>星澜小月月与迷失的回响</h3>
+                
+                <p>城市的霓虹无法完全掩盖星空</p>
+                
+                <p>他正蜷在懒人沙发里，毛茸茸的大尾巴有一下没一下地拍着地面，终端屏幕上闪烁着他刚剪辑完的视频草稿。"啊——总算搞定了……"他打了个哈欠，露出小巧的尖牙，耳朵也因为放松而软软地塌了下来。</p>
+                
+                <p>就在这时，他胸前一枚总是散发着微光的、像破碎水晶般的吊坠突然不规则地闪烁起来.</p>
+                
+                <p>"嗯？"他坐起身，爪子握住了吊坠。这不是普通的饰品，是他与生俱来的空间能力凝聚物。通常它只会像呼吸般平稳地明灭，但现在，它却在急促地"报警"。</p>
+                
+                <p>"又有哪里不稳定了吗？"他嘀咕着。这种感应并不罕见，或许某个角落正有一个小小的空间即将形成，他通常能轻易地安抚它。</p>
+                
+                <p>但这次的感觉截然不同。吊坠传来的不是细微的波动，而是一种……<span class="highlight">悲伤的共鸣</span>。像是什么东西在遥远的地方碎裂了，回声通过空间的脉络传递到了他这里。同时，他敏锐地感知到，城市边缘的废弃广场方向，传来一股异常的空间扭曲力。</p>
+                
+                <p>好奇心和对那股莫名悲伤的在意驱使着他。他站起身，深吸一口气，如同投入石子的湖面，一个泛着微光的"洞口"悄然打开——这是他最拿手的空间短途传送。</p>
+                
+                <p>一步踏出，他已从温暖的房间来到了荒凉寂静的废弃广场。夜风拂过他的毛发，带来一丝凉意。广场中央的空间果然极不稳定，光线扭曲，形成一个不断震颤、拳头大小的混沌能量团，那股悲伤的共鸣正从这里出来。</p>
+                
+                <p>"只是个小型裂缝雏形？"歪了歪头，准备像往常一样伸出爪子，用能力将其抚平。</p>
+                
+                <p>突然，异变陡生！</p>
+                
+                <p>那混沌能量团猛地膨胀，爆发出强烈的吸力！地面的碎石、断砖纷纷被卷入其中，消失不见。他一个踉跄，赶紧稳住，脚下浮现出淡淡的、如同星座图般的法阵，抵抗着吸力。</p>
+                
+                <p>"哇哦！这个劲可真大！"他惊呼一声，耳朵警觉地竖得笔直。</p>
+                
+                <p>透过那扭曲的裂缝，看到的不是混乱的虚空，而是一个飞速闪过的画面：一片璀璨却正在崩塌的星空，还有一块……闪烁着温柔月光的碎片？</p>
+                
+                <p>"那不是自然形成的裂缝……那后面有东西！"
+                这裂缝更像是一个求救信号，一个因为某种巨大冲击而被意外撕开的空间隧道。</p>
+                
+                <p>必须稳定它！否则它会吞噬周围的一切，另一端那个散发着悲伤气息的东西也可能彻底迷失在虚空里。</p>
+                
+                <p>眼神一凝，他双爪在胸前虚握，胸前的吊坠爆发出强烈的光芒。能量如同潮汐般以他为中心扩散开来，强行包裹住那不稳定的裂缝。</p>
+                
+                <p>"静下来……"他低声呢喃，努力梳理着狂暴的空间乱流。这就像是在解开一个毛线团，需要极大的耐心和精准的控制力。他的额角渗出了细密的汗珠，尾巴也因为全力输出而绷紧。</p>
+                
+                <p>过程异常艰难，裂缝的另一端不断传来抗拒和混乱的能量。但他没有放弃，他能感觉到，有股神秘力量仿佛在指引着他。</p>
+                
+                <p>终于，在他的努力下，狂暴的吸力渐渐减弱，扭曲的光线开始收束，裂缝逐渐被稳定成一个柔和的、镜面般的银色传送门。</p>
+                
+                <p>然而，还没等松口气，一道影子猛地从传送门中射出，速度极快！他下意识地伸出爪子一抓——入手冰凉，正是他刚才看到的那块月白色碎片。</p>
+                
+                <p>就在碎片离开传送门的瞬间，传送门也因为能量耗尽而剧烈闪烁了几下，无声地闭合了，广场恢复了寂静，仿佛一切从未发生。</p>
+                
+                <p>喘着气，摊开爪子。那块碎片在他的掌心，散发着微弱的、令人安心的光芒，之前的悲伤气息已经消散，转而变成了一种温和的暖意。它的形状像是一弯新月，表面有天然的奇妙纹路。</p>
+                
+                <p>"刚才……？"看着碎片，又看了看已经空无一物的广场，心中的疑惑更甚，"你又是谁留下的呢？"</p>
+                
+                <p>碎片微微发烫，仿佛在回应他。</p>
+                
+                <p>他将它小心地握紧，露出了一个微笑。虽然问题很多，但他解决了一次空间危机，还似乎……得到了一个神秘的"礼物"。</p>
+                
+                <p>"好吧，"他对着碎片说，眼睛弯成了月牙，"看来下次视频的素材有了，《空间UP主意外收获异次元礼物？！》这标题肯定能火！"</p>
+                
+                <p>他再次打开传送门，心情愉悦地踏回了自己温暖的房间。窗外的星空依旧，但星澜小月月知道，世界的广阔远超凡人的想象，而他，正是能连接那些奇妙空间的存在。</p>
+                
+                <p>至于这块碎片的秘密？他有的是时间和空间能力去慢慢探索。也许，这是一段新冒险的开始。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 摄影部分 -->
+    <section id="gallery" class="page">
+        <div class="container">
+            <div class="page-title">
+                <h1>摄影</h1>
+                <p>一些比较艺术的摄影</p>
+            </div>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>森林之友</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>月夜独行</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>沙漠探险者</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>海岸线</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>1234</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>雪山之巅</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="overlay">
+                        <h3>霓虹都市</h3>
+                        <p>摄影师📷:</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 个人扩列 - 已更新 -->
+    <section id="contact" class="page">
+        <div class="container">
+            <div class="page-title">
+                <h1>个人扩列</h1>
+                <p>欢迎来交朋友！</p>
+            </div>
+            
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-qq"></i>
+                    </div>
+                    <h3>QQ扩列</h3>
+                    <p>加好友时请注明来意</p>
+                    <p>兽圈/Furry</p>
+                    <p class="contact-email">QQ: 3769636783</p>
+                    <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3769636783" class="contact-btn">添加好友</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-bilibili"></i>
+                    </div>
+                    <h3>哔哩哔哩主页</h3>
+                    <p>关注我的B站账号</p>
+                    <p>获取最新作品</p>
+                    <a href="https://space.bilibili.com/1841279994" class="contact-btn" target="_blank">访问主页</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>和我的智能体对话</h3>
+                    <p>与AI助手聊天</p>
+                    <p>获取帮助或娱乐</p>
+                    <a href="https://short.xingyeai.com/sRe7VqZqXgL" class="contact-btn" target="_blank">开始对话</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <h3>悄悄话传送门</h3>
+                    <p>故事会投稿</p>
+                    <p>不开心事情倾诉</p>
+                    <a href="https://dreamail.cn/send?dm=fc820c14-386c-41c8-a3b9-af25ef231111" class="contact-btn" target="_blank">传送前往</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>邮箱📬</h3>
+                    <p>我不知道</p>
+                    <p>这个可以再干什么了( •̥́ ˍ •̀)</p>
+                    <p class="contact-email">xlxyy123456@outlook.com</p>
+                    <p class="contact-email">副邮箱:xinglanchuansong@outlook.com</p>
+                    <a href="mailto:xlxyy123456@outlook.com" class="contact-btn">发送邮件</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 反馈与建议 -->
+    <section id="feedback" class="page">
+        <div class="container">
+            <div class="page-title">
+                <h1>反馈与建议</h1>
+                <p>您的意见对我们很重要</p>
+            </div>
+            
+            <div class="feedback-content">
+                <h3>分享您的想法</h3>
+                
+                <p>感谢您访问我的个人主页！如果您有任何建议、意见或发现了任何问题，请随时通过下方的按钮与我分享。您的反馈将帮助我不断改进和提升网站体验。</p>
+                
+                <p>无论是功能建议、内容改进，还是您在使用过程中遇到的任何问题，我都非常乐意听取。您的每一份反馈都是宝贵的，将直接帮助我更好地服务于所有访客。</p>
+                
+                <p>请点击下方按钮，通过专门的反馈渠道与我联系。我会认真阅读每一条反馈，并在可能的情况下进行改进。感谢您的支持！</p>
+                
+                <a href="https://dreamail.cn/send?dm=4d7abcf2-4bd6-4df9-bc90-c210b242ccb3" class="feedback-btn" target="_blank">
+                    <i class="fas fa-comment-alt"></i> 提交反馈
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 星际之澜 -->
+    <section id="cosmic" class="page">
+        <div class="container">
+            <div class="cosmic-page">
+                <h1 class="cosmic-title">『星际之澜·月光织梦』</h1>
+                <h2 class="cosmic-subtitle">Stellar Waves · Moonlit Dreams</h2>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="在星际中搜索点什么...">
+                    <button class="search-btn">探索宇宙</button>
+                </div>
+                
+                <div class="coming-soon">
+                    <i class="fas fa-rocket"></i>更多精彩内容正在开发中敬请期待! <i class="fas fa-rocket"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 网站统计信息 -->
+    <div class="site-stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="site-running-time">0天0小时</div>
+                    <div class="stat-label">网站已运行</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value" id="site-visitors">12345</div>
+                    <div class="stat-label">历史访客</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <p class="copyright">©2025 星澜小月月-XingLan 个人主页 | 探索无限可能</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取进入等待页面元素
+            const splashScreen = document.getElementById('splash-screen');
+            
+            // 页面加载时禁止滚动
+            document.body.classList.add('splash-active');
+            
+            // 等待3秒后隐藏进入页面，显示主内容
+            setTimeout(function() {
+                // 添加淡出类
+                splashScreen.classList.add('fade-out');
+                
+                // 等待淡出动画完成后隐藏进入页面并允许滚动
+                setTimeout(function() {
+                    splashScreen.style.display = 'none';
+                    document.body.classList.remove('splash-active');
+                }, 800); // 与CSS过渡时间一致
+            }, 3000); // 3秒等待时间
+            
+            // 页面切换功能
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const hamburger = document.getElementById('hamburger');
+            const navLinksContainer = document.getElementById('navLinks');
+            
+            // 页面切换
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 获取目标页面ID
+                    const targetPage = this.getAttribute('data-page');
+                    
+                    // 更新导航激活状态
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 隐藏所有页面，显示目标页面
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    document.getElementById(targetPage).classList.add('active');
+                    
+                    // 移动端关闭菜单
+                    navLinksContainer.classList.remove('active');
+                    
+                    // 滚动到页面顶部
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            // 移动端菜单切换
+            hamburger.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+            
+            // 搜索功能
+            const searchBtn = document.querySelector('.search-btn');
+            const searchInput = document.querySelector('.search-input');
+            
+            searchBtn.addEventListener('click', function() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 使用搜索
+                    window.open(`https://www.bing.com/search?q=${encodeURIComponent(query)}`, '_blank');
+                } else {
+                    searchInput.focus();
+                }
+            });
+            
+            // 按Enter键也可触发搜索
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchBtn.click();
+                }
+            });
+
+            // 点击特效：创建爪印
+            document.addEventListener('click', function(e) {
+                createPawPrint(e.clientX, e.clientY);
+            });
+            
+            function createPawPrint(x, y) {
+                const pawPrint = document.createElement('div');
+                pawPrint.className = 'paw-print';
+                pawPrint.innerHTML = '🐾';
+                pawPrint.style.left = `${x}px`;
+                pawPrint.style.top = `${y}px`;
+                
+                document.body.appendChild(pawPrint);
+                
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    pawPrint.remove();
+                }, 1500);
+            }
+            
+            // 网站运行时间计算（包含秒数)
+            function updateRunningTime() {
+                // 网站上线日期
+                const startDate = new Date('2025-07-12T00:08:00');
+                const now = new Date();
+                
+                // 计算时间差
+                const diffTime = Math.abs(now - startDate);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+                const diffSeconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+                
+                // 更新显示
+                document.getElementById('site-running-time').textContent = 
+                    `${diffDays}天${diffHours}小时${diffMinutes}分${diffSeconds}秒`;
+            }
+
+            // 初始化运行时间
+            updateRunningTime();
+            // 每秒更新一次
+            setInterval(updateRunningTime, 1000);
+            
+            // 访客计数
+            function updateVisitorCount() {
+                let visitors = localStorage.getItem('siteVisitors');
+                
+                if (!visitors) {
+                    // 初始访客数（可以设置一个起始值）
+                    visitors = 0;
+                } else {
+                    // 每次访问增加1
+                    visitors = parseInt(visitors) + 1;
+                }
+                
+                // 保存到本地存储
+                localStorage.setItem('siteVisitors', visitors);
+                
+                // 更新显示
+                document.getElementById('site-visitors').textContent = visitors.toLocaleString();
+            }
+            
+            // 初始化访客计数
+            updateVisitorCount();
+            
+            // 主题切换功能
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // 检查本地存储中的主题偏好
+            const savedTheme = localStorage.getItem('theme');
+            const savedThemeManual = localStorage.getItem('themeManual'); // 标记是否是手动设置的
+            
+            // 根据时间自动设置主题（如果不是手动设置的）
+            function setThemeBasedOnTime() {
+                if (savedThemeManual === 'true') return; // 如果是手动设置的，不自动更改
+                
+                const now = new Date();
+                const hour = now.getHours();
+                
+                // 晚上6点到早上6点使用深色模式，其他时间使用浅色模式
+                if (hour >= 18 || hour < 6) {
+                    document.body.setAttribute('data-theme', 'dark');
+                    updateThemeIcon('dark');
+                } else {
+                    document.body.setAttribute('data-theme', 'light');
+                    updateThemeIcon('light');
+                }
+            }
+            
+            // 初始设置主题
+            if (savedTheme) {
+                document.body.setAttribute('data-theme', savedTheme);
+                updateThemeIcon(savedTheme);
+            } else {
+                setThemeBasedOnTime();
+            }
+            
+            // 设置定时器，每小时检查一次时间并更新主题
+            setInterval(setThemeBasedOnTime, 60 * 60 * 1000);
+            
+            // 切换主题
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                localStorage.setItem('themeManual', 'true'); // 标记为用户手动设置
+                updateThemeIcon(newTheme);
+                
+                // 根据主题显示/隐藏星辰效果
+                updateStarsVisibility();
+            });
+            
+            function updateThemeIcon(theme) {
+                if (theme === 'light') {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            }
+            
+            // 返回顶部功能
+            const backToTop = document.getElementById('backToTop');
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+            
+            // 点击返回顶部
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 彩蛋功能 - 游戏选择菜单
+            const easterEggTrigger = document.getElementById('easterEggTrigger');
+            const gameSelection = document.getElementById('gameSelection');
+            const closeGameSelection = document.getElementById('closeGameSelection');
+            const gameOptions = document.querySelectorAll('.game-option');
+            
+            // 游戏选择菜单事件
+            gameOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const gameId = this.getAttribute('data-game');
+                    gameSelection.classList.remove('active');
+                    
+                    // 显示选中的游戏
+                    setTimeout(() => {
+                        document.getElementById(gameId).classList.add('active');
+                    }, 300);
+                });
+            });
+            
+            // 关闭游戏选择菜单
+            closeGameSelection.addEventListener('click', function() {
+                gameSelection.classList.remove('active');
+            });
+            
+            // 触发彩蛋
+            let clickCount = 0;
+            let lastClickTime = 0;
+            
+            easterEggTrigger.addEventListener('click', function(e) {
+                const currentTime = new Date().getTime();
+                
+                // 检查是否在1秒内连续点击
+                if (currentTime - lastClickTime < 1000) {
+                    clickCount++;
+                } else {
+                    clickCount = 1;
+                }
+                
+                lastClickTime = currentTime;
+                
+                // 如果连续点击5次，触发彩蛋
+                if (clickCount >= 5) {
+                    // 重置计数器
+                    clickCount = 0;
+                    
+                    // 显示游戏选择菜单
+                    gameSelection.classList.add('active');
+                }
+            });
+            
+            // 猜数字游戏逻辑
+            const numberGame = document.getElementById('numberGame');
+            const guessInput = document.getElementById('guessInput');
+            const guessButton = document.getElementById('guessButton');
+            const restartButton = document.getElementById('restartButton');
+            const backToSelection = document.getElementById('backToSelection');
+            const gameMessage = document.getElementById('gameMessage');
+            const gameStats = document.getElementById('gameStats');
+            
+            let targetNumber = 0;
+            let attempts = 0;
+            let gameActive = false;
+            
+            // 初始化猜数字游戏
+            function initNumberGame() {
+                targetNumber = Math.floor(Math.random() * 100) + 1;
+                attempts = 0;
+                gameActive = true;
+                guessInput.value = '';
+                gameMessage.textContent = '';
+                gameStats.textContent = '尝试次数: 0';
+                guessButton.style.display = 'inline-block';
+                restartButton.style.display = 'none';
+                guessInput.disabled = false;
+                guessButton.disabled = false;
+                celebration.style.display = 'none';
+            }
+            
+            // 检查猜测
+            function checkGuess() {
+                if (!gameActive) return;
+                
+                const userGuess = parseInt(guessInput.value);
+                
+                if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                    gameMessage.textContent = '请输入1到100之间的数字！';
+                    return;
+                }
+                
+                attempts++;
+                gameStats.textContent = `尝试次数: ${attempts}`;
+                
+                if (userGuess === targetNumber) {
+                    // 猜中了
+                    gameActive = false;
+                    guessButton.style.display = 'none';
+                    restartButton.style.display = 'inline-block';
+                    guessInput.disabled = true;
+                    
+                    // 根据尝试次数给出不同评价
+                    let message = '';
+                    if (attempts <= 5) {
+                        message = `太棒了，你猜中用了${attempts}次！OwO！`;
+                    } else if (attempts <= 10) {
+                        message = `唔……还行，用了${attempts}次！UwU！`;
+                    } else {
+                        message = `不是吧，杂鱼！你用了${attempts}次！awa！`;
+                    }
+                    
+                    gameMessage.textContent = message;
+                    
+                    // 显示庆祝效果
+                    celebrate();
+                } else if (userGuess < targetNumber) {
+                    gameMessage.textContent = '猜小了！再试一次！';
+                } else {
+                    gameMessage.textContent = '猜大了！再试一次！';
+                }
+                
+                guessInput.value = '';
+                guessInput.focus();
+            }
+            
+            // 猜数字游戏按钮事件
+            guessButton.addEventListener('click', checkGuess);
+            
+            guessInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkGuess();
+                }
+            });
+            
+            restartButton.addEventListener('click', function() {
+                initNumberGame();
+                guessInput.focus();
+            });
+            
+            backToSelection.addEventListener('click', function() {
+                numberGame.classList.remove('active');
+                setTimeout(() => {
+                    gameSelection.classList.add('active');
+                }, 300);
+            });
+            
+            // 记忆匹配游戏逻辑
+            const memoryGame = document.getElementById('memoryGame');
+            const memoryBoard = document.getElementById('memoryBoard');
+            const restartMemory = document.getElementById('restartMemory');
+            const backToSelectionMemory = document.getElementById('backToSelectionMemory');
+            const memoryAttempts = document.getElementById('memoryAttempts');
+            const memoryMatches = document.getElementById('memoryMatches');
+            
+            let memoryCards = [];
+            let flippedCards = [];
+            let matchedPairs = 0;
+            let memoryAttemptsCount = 0;
+            let memoryGameActive = false;
+            
+            // 记忆匹配游戏卡片符号 - 增加到10对
+            const memorySymbols = ['🐬', '🐾', '🌟', '🌙', '🌈', '🌸', '🍑', '🎮', '🎯', '🎨'];
+            
+            // 初始化记忆匹配游戏
+            function initMemoryGame() {
+                memoryBoard.innerHTML = '';
+                memoryCards = [];
+                flippedCards = [];
+                matchedPairs = 0;
+                memoryAttemptsCount = 0;
+                memoryGameActive = true;
+                
+                memoryAttempts.textContent = '0';
+                memoryMatches.textContent = '0';
+                
+                // 创建卡片对
+                let cardValues = [...memorySymbols, ...memorySymbols];
+                
+                // 洗牌算法
+                for (let i = cardValues.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [cardValues[i], cardValues[j]] = [cardValues[j], cardValues[i]];
+                }
+                
+                // 创建卡片
+                cardValues.forEach((value, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.index = index;
+                    card.dataset.value = value;
+                    
+                    const front = document.createElement('div');
+                    front.className = 'front';
+                    front.textContent = value;
+                    
+                    const back = document.createElement('div');
+                    back.className = 'back';
+                    back.textContent = '?';
+                    
+                    card.appendChild(front);
+                    card.appendChild(back);
+                    
+                    card.addEventListener('click', flipCard);
+                    memoryBoard.appendChild(card);
+                    memoryCards.push(card);
+                });
+            }
+            
+            // 翻转卡片
+            function flipCard() {
+                if (!memoryGameActive) return;
+                
+                const card = this;
+                
+                // 如果卡片已经匹配或已经翻转，则不处理
+                if (card.classList.contains('matched') || card.classList.contains('flipped')) {
+                    return;
+                }
+                
+                // 如果已经有2张卡片翻转，则不处理
+                if (flippedCards.length === 2) {
+                    return;
+                }
+                
+                // 翻转卡片
+                card.classList.add('flipped');
+                flippedCards.push(card);
+                
+                // 如果翻转了2张卡片，检查是否匹配
+                if (flippedCards.length === 2) {
+                    memoryAttemptsCount++;
+                    memoryAttempts.textContent = memoryAttemptsCount;
+                    
+                    const card1 = flippedCards[0];
+                    const card2 = flippedCards[1];
+                    
+                    if (card1.dataset.value === card2.dataset.value) {
+                        // 匹配成功
+                        card1.classList.add('matched');
+                        card2.classList.add('matched');
+                        flippedCards = [];
+                        matchedPairs++;
+                        memoryMatches.textContent = matchedPairs;
+                        
+                        // 检查是否完成游戏
+                        if (matchedPairs === memorySymbols.length) {
+                            memoryGameActive = false;
+                            setTimeout(() => {
+                                // 根据尝试次数显示不同的提示消息
+                                let message = '';
+                                if (memoryAttemptsCount <= 10) {
+                                    message = `太棒了，你用了${memoryAttemptsCount}次！OwO!`;
+                                } else if (memoryAttemptsCount <= 20) {
+                                    message = `唔……还行，用了${memoryAttemptsCount}次！UwU！`;
+                                } else {
+                                    message = `不是吧！杂鱼，你用了${memoryAttemptsCount}次！awa!`;
+                                }
+                                alert(message);
+                                celebrate();
+                            }, 500);
+                        }
+                    } else {
+                        // 不匹配，翻转回去
+                        memoryGameActive = false;
+                        setTimeout(() => {
+                            card1.classList.remove('flipped');
+                            card2.classList.remove('flipped');
+                            flippedCards = [];
+                            memoryGameActive = true;
+                        }, 1000);
+                    }
+                }
+            }
+            
+            // 记忆匹配游戏按钮事件
+            restartMemory.addEventListener('click', initMemoryGame);
+            
+            backToSelectionMemory.addEventListener('click', function() {
+                memoryGame.classList.remove('active');
+                setTimeout(() => {
+                    gameSelection.classList.add('active');
+                }, 300);
+            });
+            
+            // 庆祝效果
+            const celebration = document.getElementById('celebration');
+            
+            function celebrate() {
+                celebration.style.display = 'block';
+                
+                // 创建多个彩色纸屑
+                for (let i = 0; i < 100; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = `${Math.random() * 100}%`;
+                        confetti.style.backgroundColor = getRandomColor();
+                        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                        celebration.appendChild(confetti);
+                        
+                        // 动画结束后移除元素
+                        setTimeout(() => {
+                            confetti.remove();
+                        }, 5000);
+                    }, i * 50);
+                }
+                
+                // 5秒后隐藏庆祝效果
+                setTimeout(() => {
+                    celebration.style.display = 'none';
+                }, 5000);
+            }
+            
+            function getRandomColor() {
+                const colors = ['#ff6b6b', '#4ecdc4', '#ffd166', '#9d65c9', '#118ab2', '#ff6b9c'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            // 星辰效果
+            const starsContainer = document.getElementById('stars');
+            
+            // 创建星星
+            function createStars() {
+                // 清除现有星星
+                starsContainer.innerHTML = '';
+                
+                // 只在暗色模式下创建星星
+                if (document.body.getAttribute('data-theme') === 'light') return;
+                
+                // 创建大量星星
+                for (let i = 0; i < 200; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    
+                    // 随机位置
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    
+                    // 随机大小
+                    const size = Math.random() * 3;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    
+                    // 随机闪烁延迟
+                    star.style.animationDelay = `${Math.random() * 3}s`;
+                    
+                    starsContainer.appendChild(star);
+                }
+                
+                // 创建流星
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        createMeteor();
+                    }, i * 2000);
+                }
+            }
+            
+            // 创建流星
+            function createMeteor() {
+                const meteor = document.createElement('div');
+                meteor.className = 'meteor';
+                
+                // 随机位置
+                meteor.style.left = `${Math.random() * 50}%`;
+                meteor.style.top = `${Math.random() * 30}%`;
+                
+                // 随机动画持续时间
+                meteor.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                
+                starsContainer.appendChild(meteor);
+                
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    meteor.remove();
+                }, 5000);
+                
+                // 定期创建新的流星
+                setTimeout(() => {
+                    if (document.body.getAttribute('data-theme') === 'dark') {
+                        createMeteor();
+                    }
+                }, 10000 + Math.random() * 10000);
+            }
+            
+            // 更新星星可见性
+            function updateStarsVisibility() {
+                if (document.body.getAttribute('data-theme') === 'dark') {
+                    createStars();
+                } else {
+                    starsContainer.innerHTML = '';
+                }
+            }
+            
+            // 初始创建星星
+            createStars();
+            
+            // 1. 禁用文本选择和右键菜单
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 2. 禁用拖拽
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 3. 禁用开发者工具
+            function detectDevTools() {
+                const devtoolsWarning = document.getElementById('devtoolsWarning');
+                
+                function checkDevTools() {
+                    const widthThreshold = window.outerWidth - window.innerWidth > 160;
+                    const heightThreshold = window.outerHeight - window.innerHeight > 160;
+                    
+                    if ((widthThreshold || heightThreshold) && !document.fullscreenElement) {
+                        devtoolsWarning.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        devtoolsWarning.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+                
+                // 初始检查
+                checkDevTools();
+                
+                // 定期检查
+                setInterval(checkDevTools, 1000);
+                
+                // 监听窗口大小变化
+                window.addEventListener('resize', checkDevTools);
+            }
+            
+            // 4. 禁用键盘快捷键 - 修复：在彩蛋游戏输入框中不触发
+            document.addEventListener('keydown', function(e) {
+                // 如果事件发生在彩蛋游戏输入框中，不触发限制
+                if (e.target.id === 'guessInput') {
+                    return;
+                }
+                
+                // 禁用F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // 禁用Ctrl+Shift+I、Ctrl+Shift+C、Ctrl+Shift+J
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // 禁用Ctrl+U（查看源代码）
+                if (e.ctrlKey && e.key === 'u') {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // 禁用PrintScreen键
+                if (e.key === 'PrintScreen') {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // 禁用Alt+PrintScreen键
+                if (e.altKey && e.key === 'PrintScreen') {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // 禁用Windows+PrintScreen键
+                if (e.key === 'PrintScreen' && e.getModifierState('Meta')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // 6. 禁用复制功能
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 8. 检测浏览器扩展和开发者工具
+            setInterval(function() {
+                const debuggerTest = () => { };
+                console.log(debuggerTest);
+                console.clear();
+            }, 1000);
+            
+            // 初始化开发者工具检测
+            detectDevTools();
+            
+            // 初始化游戏
+            initNumberGame();
+            initMemoryGame();
+        });
+    </script>
+</body>
+</html>
