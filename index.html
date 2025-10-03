@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* 所有原有的CSS样式保持不变 */
         * {
             margin: 0;
             padding: 0;
@@ -488,7 +489,7 @@
             font-weight: 500;
         }
         
-        /* 摄影作品页面 */
+        /* 摄影作品页面 - 已修改为动态加载 */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -503,6 +504,7 @@
             height: 250px;
             box-shadow: 0 5px 15px var(--shadow-color);
             transition: var(--transition);
+            /* 默认渐变背景，如果图片加载失败则显示这个 */
             background: linear-gradient(45deg, #a18cd1, #fbc2eb);
             display: flex;
             align-items: center;
@@ -511,6 +513,8 @@
             font-size: 1.2rem;
             text-align: center;
             padding: 20px;
+            background-size: cover;
+            background-position: center;
         }
         
         .gallery-item:hover {
@@ -1667,7 +1671,7 @@
         </div>
     </section>
 
-    <!-- 摄影部分 -->
+    <!-- 摄影部分 - 已修改为动态加载 -->
     <section id="gallery" class="page">
         <div class="container">
             <div class="page-title">
@@ -1675,118 +1679,8 @@
                 <p>一些比较艺术的摄影</p>
             </div>
             
-            <div class="gallery">
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>森林之友</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>月夜独行</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>沙漠探险者</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>海岸线</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>1234</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>雪山之巅</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-item">
-                    <div class="overlay">
-                        <h3>霓虹都市</h3>
-                        <p>摄影师📷:</p>
-                    </div>
-                </div>
+            <div class="gallery" id="gallery-container">
+                <!-- 图片将通过JavaScript动态生成 -->
             </div>
         </div>
     </section>
@@ -2669,6 +2563,138 @@
             // 初始化游戏
             initNumberGame();
             initMemoryGame();
+
+            // ========== 摄影板块随机图片功能 ==========
+            
+            // 图片数据配置 - 请修改为您自己的服务器路径
+            const photoData = [
+                {
+                    id: 1,
+                    title: "森林之友",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo1.jpg"
+                },
+                {
+                    id: 2,
+                    title: "月夜独行", 
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo2.jpg"
+                },
+                {
+                    id: 3,
+                    title: "沙漠探险者",
+                    photographer: "星澜小月月", 
+                    url: "https://your-server.com/images/photo3.jpg"
+                },
+                {
+                    id: 4,
+                    title: "海岸线",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo4.jpg"
+                },
+                {
+                    id: 5,
+                    title: "雪山之巅",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo5.jpg"
+                },
+                {
+                    id: 6,
+                    title: "城市之光",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo6.jpg"
+                },
+                {
+                    id: 7,
+                    title: "田园风光",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo7.jpg"
+                },
+                {
+                    id: 8,
+                    title: "星空",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo8.jpg"
+                },
+                {
+                    id: 9,
+                    title: "极光",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo9.jpg"
+                },
+                {
+                    id: 10,
+                    title: "瀑布",
+                    photographer: "星澜小月月",
+                    url: "https://your-server.com/images/photo10.jpg"
+                }
+                // 可以继续添加更多图片...
+            ];
+
+            // 随机选择图片的函数
+            function getRandomPhotos(photos, count) {
+                // 复制数组以避免修改原数组
+                const shuffled = [...photos];
+                
+                // Fisher-Yates 洗牌算法
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                
+                // 返回前count个
+                return shuffled.slice(0, count);
+            }
+
+            // 渲染画廊的函数
+            function renderGallery(photos) {
+                const galleryContainer = document.getElementById('gallery-container');
+                
+                // 清空现有内容
+                galleryContainer.innerHTML = '';
+                
+                // 为每张图片创建HTML元素
+                photos.forEach(photo => {
+                    const photoElement = document.createElement('div');
+                    photoElement.className = 'gallery-item';
+                    
+                    // 创建图片元素
+                    const img = new Image();
+                    img.src = photo.url;
+                    
+                    // 图片加载成功时设置背景
+                    img.onload = function() {
+                        photoElement.style.backgroundImage = `url(${photo.url})`;
+                    };
+                    
+                    // 图片加载失败时保持默认渐变色
+                    img.onerror = function() {
+                        console.log(`图片加载失败: ${photo.url}`);
+                        // 保持默认的渐变色背景
+                    };
+                    
+                    photoElement.innerHTML = `
+                        <div class="overlay">
+                            <h3>${photo.title}</h3>
+                            <p>摄影师📷: ${photo.photographer}</p>
+                        </div>
+                    `;
+                    
+                    galleryContainer.appendChild(photoElement);
+                });
+            }
+
+            // 初始化画廊
+            function initGallery() {
+                // 从所有图片中随机选择5张
+                const randomPhotos = getRandomPhotos(photoData, 5);
+                
+                // 渲染画廊
+                renderGallery(randomPhotos);
+            }
+
+            // 初始化画廊
+            initGallery();
         });
     </script>
 </body>
